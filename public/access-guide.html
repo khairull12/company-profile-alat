@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Guide - Company Profile Alat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/access-guide.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container py-5">
+        <!-- Header -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold hero-title mb-3">
+                <i class="fas fa-tools me-3"></i>
+                ACCESS GUIDE
+            </h1>
+            <p class="lead text-white">Panduan Akses Web & Admin - Company Profile Alat Berat</p>
+        </div>
+
+        <!-- Main Access Card -->
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card access-card">
+                    <div class="card-body p-5">
+                        <div class="row g-4">
+                            <!-- Web Access Section -->
+                            <div class="col-md-6">
+                                <div class="card section-card h-100">
+                                    <div class="card-header bg-primary text-white position-relative">
+                                        <h5 class="mb-0">
+                                            <i class="fas fa-globe me-2"></i>
+                                            Web Access (Public)
+                                        </h5>
+                                        <span class="status-badge status-online">ONLINE</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="text-muted mb-4">Akses halaman web publik tanpa perlu login</p>
+                                        
+                                        <div class="d-grid gap-3">
+                                            <a href="http://localhost:8000/" class="btn btn-access btn-web" target="_blank" rel="noopener">
+                                                <i class="fas fa-home me-2"></i>
+                                                Halaman Utama
+                                            </a>
+                                            
+                                            <a href="http://localhost:8000/test-booking/1" class="btn btn-access btn-test" target="_blank" rel="noopener">
+                                                <i class="fas fa-calendar-plus me-2"></i>
+                                                Test Booking Form
+                                            </a>
+                                            
+                                            <a href="http://localhost:8000/debug-admin" class="btn btn-outline-info btn-access" target="_blank" rel="noopener">
+                                                <i class="fas fa-bug me-2"></i>
+                                                Debug Info
+                                            </a>
+                                        </div>
+                                        
+                                        <div class="mt-4">
+                                            <h6><i class="fas fa-list me-2 text-info"></i>Test Equipment IDs:</h6>
+                                            <div class="row g-2">
+                                                <div class="col-6">
+                                                    <a href="http://localhost:8000/test-booking/2" class="btn btn-outline-secondary btn-sm w-100" target="_blank" rel="noopener">ID: 2</a>
+                                                </div>
+                                                <div class="col-6">
+                                                    <a href="http://localhost:8000/test-booking/3" class="btn btn-outline-secondary btn-sm w-100" target="_blank" rel="noopener">ID: 3</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Admin Access Section -->
+                            <div class="col-md-6">
+                                <div class="card section-card h-100">
+                                    <div class="card-header bg-danger text-white position-relative">
+                                        <h5 class="mb-0">
+                                            <i class="fas fa-shield-alt me-2"></i>
+                                            Admin Access (Protected)
+                                        </h5>
+                                        <span class="status-badge status-online">SECURE</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="text-muted mb-4">Akses panel admin dengan authentication</p>
+                                        
+                                        <!-- Quick Admin Login -->
+                                        <div class="credential-box text-center">
+                                            <h6 class="fw-bold text-dark mb-3">
+                                                <i class="fas fa-key me-2"></i>Quick Admin Access
+                                            </h6>
+                                            <a href="http://localhost:8000/auto-login-admin" class="btn btn-access btn-admin" target="_blank" rel="noopener">
+                                                <i class="fas fa-magic me-2"></i>
+                                                Auto Login Admin
+                                            </a>
+                                        </div>
+                                        
+                                        <!-- Manual Login -->
+                                        <div class="mt-4">
+                                            <h6><i class="fas fa-sign-in-alt me-2 text-warning"></i>Manual Login:</h6>
+                                            <div class="credential-box">
+                                                <div class="row g-2 small">
+                                                    <div class="col-12"><strong>Email:</strong> admin@admin.com</div>
+                                                    <div class="col-12"><strong>Password:</strong> password</div>
+                                                </div>
+                                            </div>
+                                            <a href="http://localhost:8000/login" class="btn btn-outline-danger btn-access w-100" target="_blank" rel="noopener">
+                                                <i class="fas fa-sign-in-alt me-2"></i>
+                                                Manual Login
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Admin Features -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="card section-card">
+                                    <div class="card-header bg-success text-white">
+                                        <h5 class="mb-0">
+                                            <i class="fas fa-cogs me-2"></i>
+                                            Admin Panel Features (Setelah Login)
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row g-3">
+                                            <div class="col-md-3">
+                                                <a href="http://localhost:8000/admin/dashboard" class="btn btn-outline-success w-100" target="_blank" rel="noopener">
+                                                    <i class="fas fa-tachometer-alt me-2"></i>
+                                                    Dashboard
+                                                </a>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <a href="http://localhost:8000/admin/settings" class="btn btn-outline-success w-100" target="_blank" rel="noopener">
+                                                    <i class="fas fa-cog me-2"></i>
+                                                    Settings
+                                                </a>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <a href="http://localhost:8000/admin/equipment" class="btn btn-outline-success w-100" target="_blank" rel="noopener">
+                                                    <i class="fas fa-tools me-2"></i>
+                                                    Equipment
+                                                </a>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <a href="http://localhost:8000/admin/bookings" class="btn btn-outline-success w-100" target="_blank" rel="noopener">
+                                                    <i class="fas fa-calendar me-2"></i>
+                                                    Bookings
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Server Info -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="alert alert-info d-flex align-items-center" role="alert">
+                                    <i class="fas fa-server fa-2x me-3"></i>
+                                    <div>
+                                        <h6 class="alert-heading mb-1">Server Information</h6>
+                                        <p class="mb-0">
+                                            <strong>URL:</strong> http://localhost:8000 
+                                            <span class="badge bg-success ms-2">RUNNING</span>
+                                        </p>
+                                        <small class="text-muted">
+                                            Laravel Development Server - Port 8000
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-5">
+            <p class="text-white-50">
+                <i class="fas fa-code me-2"></i>
+                Company Profile Alat Berat - Development Version
+            </p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Check if server is running
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add some dynamic status checking here if needed
+            console.log('Access Guide Loaded - Server should be running on port 8000');
+        });
+    </script>
+</body>
+</html>

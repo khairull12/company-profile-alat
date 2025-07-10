@@ -1,0 +1,337 @@
+/* Hero Section */
+.booking-hero {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 50%, #28a745 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.booking-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M0 100h100L50 0z" fill="rgba(255,255,255,0.1)"/></svg>') center/cover;
+    opacity: 0.1;
+}
+
+.breadcrumb-dark .breadcrumb-item a {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+}
+
+.breadcrumb-dark .breadcrumb-item a:hover {
+    color: white;
+}
+
+/* Equipment Card */
+.equipment-card {
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.equipment-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15) !important;
+}
+
+.equipment-image {
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.equipment-card:hover .equipment-image {
+    transform: scale(1.05);
+}
+
+.category-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.price-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 15px;
+    padding: 20px;
+    border: 2px solid #dee2e6;
+}
+
+.price-item {
+    text-align: center;
+    padding: 15px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease;
+}
+
+.price-item:hover {
+    transform: translateY(-2px);
+}
+
+.price-label {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-bottom: 5px;
+}
+
+.price-value {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #495057;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+}
+
+.total-row {
+    border-top: 2px solid #28a745;
+    padding-top: 15px;
+    margin-top: 10px;
+}
+
+/* Booking Form */
+.booking-form-card {
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.bg-gradient-success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+.form-section {
+    margin-bottom: 2.5rem;
+    padding: 25px;
+    background: #f8f9fa;
+    border-radius: 15px;
+    border-left: 5px solid #007bff;
+}
+
+.section-title {
+    color: #495057;
+    font-weight: 600;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.form-control-modern {
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-control-modern:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.15);
+    transform: translateY(-2px);
+}
+
+.form-floating > .form-control-modern {
+    padding: 1rem 0.75rem;
+}
+
+.form-floating > label {
+    padding: 1rem 0.75rem;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.terms-card {
+    background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.term-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.term-item i {
+    margin-right: 12px;
+    font-size: 1.2rem;
+}
+
+.agreement-check {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid #dee2e6;
+}
+
+.agreement-check .form-check-input {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 4px;
+    border: 2px solid #28a745;
+}
+
+.agreement-check .form-check-input:checked {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.action-buttons {
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 3px solid #e9ecef;
+}
+
+.btn-submit {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border: none;
+    border-radius: 12px;
+    padding: 12px 30px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.btn-submit:hover {
+    background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+}
+
+.btn-outline-secondary {
+    border: 2px solid #6c757d;
+    border-radius: 12px;
+    padding: 12px 30px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-secondary:hover {
+    background: #6c757d;
+    transform: translateY(-2px);
+}
+
+/* Alert Modern */
+.alert-modern {
+    border: none;
+    border-radius: 15px;
+    border-left: 5px solid #dc3545;
+    background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+}
+
+/* Modal Enhancements */
+.modal-content {
+    border-radius: 20px;
+}
+
+.terms-content .term-section {
+    margin-bottom: 25px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border-left: 4px solid #007bff;
+}
+
+.terms-content .term-section h6 {
+    color: #495057;
+    margin-bottom: 15px;
+}
+
+.terms-content ul {
+    margin-bottom: 0;
+}
+
+.terms-content li {
+    margin-bottom: 8px;
+    padding-left: 5px;
+}
+
+/* Sticky positioning */
+.sticky-top {
+    top: 30px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .booking-hero {
+        text-align: center;
+    }
+    
+    .booking-hero .display-5 {
+        font-size: 2rem;
+    }
+    
+    .form-section {
+        padding: 20px;
+        margin-bottom: 2rem;
+    }
+    
+    .equipment-card {
+        margin-bottom: 2rem;
+    }
+    
+    .sticky-top {
+        position: relative !important;
+        top: auto !important;
+    }
+}
+
+/* Loading animation */
+.btn-submit:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+}
+
+.btn-submit.loading::after {
+    content: '';
+    width: 16px;
+    height: 16px;
+    margin-left: 10px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Test Banner */
+.test-banner {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Hidden element */
+.hidden {
+    display: none;
+}
+
+/* Textarea with specific height */
+.textarea-notes {
+    height: 120px;
+}

@@ -1,0 +1,48 @@
+{
+    "$schema": "https://json.schemastore.org/package.json",
+    "name": "rental-alat-berat",
+    "description": "Sistem manajemen rental alat berat dengan Laravel 11",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "vite build",
+        "dev": "vite",
+        "watch": "vite dev --host",
+        "hot": "vite --host",
+        "prod": "vite build --mode production",
+        "preview": "vite preview",
+        "lint": "eslint resources/js --ext .js,.vue",
+        "format": "prettier --write resources/js/**/*.js resources/css/**/*.css"
+    },
+    "devDependencies": {
+        "@tailwindcss/forms": "^0.5.2",
+        "@tailwindcss/vite": "^4.0.0",
+        "alpinejs": "^3.4.2",
+        "autoprefixer": "^10.4.2",
+        "axios": "^1.8.2",
+        "concurrently": "^9.0.1",
+        "laravel-vite-plugin": "^1.2.0",
+        "postcss": "^8.4.31",
+        "tailwindcss": "^3.1.0",
+        "vite": "^6.2.4"
+    },
+    "engines": {
+        "node": ">=18.0.0",
+        "npm": ">=8.0.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/username/company-profile-alat.git"
+    },
+    "keywords": [
+        "laravel",
+        "rental",
+        "alat-berat",
+        "equipment",
+        "booking",
+        "php"
+    ],
+    "author": "Your Name <your.email@example.com>",
+    "license": "MIT"
+}

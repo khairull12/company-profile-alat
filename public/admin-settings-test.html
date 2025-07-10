@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Settings Test</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 20px; 
+        }
+        .card { 
+            background: #f8f9fa; 
+            padding: 15px; 
+            margin: 10px 0; 
+            border-radius: 5px; 
+        }
+        .btn { 
+            background: #007bff; 
+            color: white; 
+            padding: 10px 20px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            margin: 5px; 
+        }
+        .btn:hover { 
+            background: #0056b3; 
+        }
+        .btn.success { 
+            background: #28a745; 
+        }
+        .btn.warning { 
+            background: #ffc107; 
+        }
+        .success { 
+            color: #28a745; 
+        }
+        .error { 
+            color: #dc3545; 
+        }
+        #results { 
+            background: #e9ecef; 
+            padding: 15px; 
+            margin: 10px 0; 
+            border-radius: 5px; 
+            white-space: pre-wrap; 
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Admin Settings Test</h1>
+    
+    <div class="grid">
+        <div class="card">
+            <h3>Test Settings Data</h3>
+            <p>Test if settings data is accessible and readable.</p>
+            <button class="btn" onclick="testSettings()">Test Settings</button>
+        </div>
+        
+        <div class="card">
+            <h3>Test Settings Routes</h3>
+            <p>Test if all settings routes are working properly.</p>
+            <button class="btn success" onclick="testRoutes()">Test Routes</button>
+        </div>
+        
+        <div class="card">
+            <h3>Access Admin Settings</h3>
+            <p>Direct access to admin settings page.</p>
+            <button class="btn warning" onclick="openSettings()">Open Settings</button>
+        </div>
+        
+        <div class="card">
+            <h3>Create New Setting</h3>
+            <p>Test creating a new setting.</p>
+            <button class="btn" onclick="openCreateSettings()">Create Setting</button>
+        </div>
+    </div>
+    
+    <div id="results"></div>
+    
+    <script>
+        async function testSettings() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = 'Testing settings...';
+            
+            try {
+                const response = await fetch('/test-settings');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultsDiv.innerHTML = `
+<span class="success">✓ Settings test successful!</span>
+
+User: ${data.user}
+Role: ${data.role}
+Is Admin: ${data.isAdmin}
+Settings Count: ${data.settingsCount}
+Settings Groups: ${data.settingsGroups.join(', ')}
+
+Available Settings:
+${data.settings.map(s => `- ${s.key}: ${s.value || 'empty'} (${s.type})`).join('\n')}
+`;
+                } else {
+                    resultsDiv.innerHTML = `<span class="error">✗ Settings test failed:</span>\n${JSON.stringify(data, null, 2)}`;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `<span class="error">✗ Error:</span>\n${error.message}`;
+            }
+        }
+        
+        async function testRoutes() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = 'Testing routes...';
+            
+            const routes = [
+                { name: 'Settings Index', url: '/admin/settings' },
+                { name: 'Settings Create', url: '/admin/settings/create' },
+                { name: 'Settings Edit (company)', url: '/admin/settings/company/edit' }
+            ];
+            
+            let results = '<span class="success">✓ Route testing results:</span>\n\n';
+            
+            for (const route of routes) {
+                try {
+                    const response = await fetch(route.url);
+                    const status = response.ok ? '✓' : '✗';
+                    results += `${status} ${route.name}: ${response.status} ${response.statusText}\n`;
+                } catch (error) {
+                    results += `✗ ${route.name}: Error - ${error.message}\n`;
+                }
+            }
+            
+            resultsDiv.innerHTML = results;
+        }
+        
+        function openSettings() {
+            window.open('/admin/settings', '_blank');
+        }
+        
+        function openCreateSettings() {
+            window.open('/admin/settings/create', '_blank');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Setting;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class AdminSettingController extends Controller
+{
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            if (!Auth::user()->isAdmin()) {
+                abort(403);
+            }
+            return $next($request);
+        });
+    }
+
+    public function index()
+    {
+        $settings = Setting::all()->groupBy('group');
+        return view('admin.settings.index', compact('settings'));
+    }
+
+    public function create()
+    {
+        return view('admin.settings.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'group' => 'required|string|max:255',
+            'key' => 'required|string|max:255|unique:settings,key',
+            'value' => 'nullable|string',
+            'type' => 'required|in:text,textarea,image,select,number,email,url'
+        ]);
+
+        Setting::create([
+            'group' => $request->group,
+            'key' => $request->key,
+            'value' => $request->value,
+            'type' => $request->type
+        ]);
+
+        return redirect()->route('admin.settings.index')
+            ->with('success', 'Pengaturan berhasil ditambahkan.');
+    }
+
+    public function edit($group)
+    {
+        $settings = Setting::where('group', $group)->get();
+        return view('admin.settings.edit', compact('settings', 'group'));
+    }
+
+    public function update(Request $request, $group)
+    {
+        $request->validate([
+            'settings' => 'required|array',
+            'settings.*' => 'nullable|string'
+        ]);
+
+        foreach ($request->settings as $key => $value) {
+            Setting::where('key', $key)->update(['value' => $value]);
+        }
+
+        return redirect()->route('admin.settings.index')
+            ->with('success', 'Pengaturan berhasil diperbarui.');
+    }
+
+    public function destroy($id)
+    {
+        $setting = Setting::findOrFail($id);
+        $setting->delete();
+
+        return redirect()->route('admin.settings.index')
+            ->with('success', 'Pengaturan berhasil dihapus.');
+    }
+
+    public function uploadImage(Request $request)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'key' => 'required|string'
+        ]);
+
+        $image = $request->file('image');
+        $imageName = time() . '_' . $image->getClientOriginalName();
+        $image->move(public_path('images/settings'), $imageName);
+        
+        Setting::where('key', $request->key)->update(['value' => 'images/settings/' . $imageName]);
+
+        return response()->json([
+            'success' => true,
+            'path' => 'images/settings/' . $imageName
+        ]);
+    }
+}
