@@ -42,6 +42,7 @@ class AdminController extends Controller
                     ->count()
             ];
         }
+        $monthlyEquipmentData = collect($monthlyEquipmentData); // Convert to collection
         
         // Equipment populer (berdasarkan stok dan status aktif)
         $popularEquipment = Equipment::where('is_active', true)

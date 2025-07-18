@@ -107,7 +107,7 @@ class AdminReportController extends Controller
                 'total_inquiries' => rand(20, 80) // Simulasi data inquiries
             ];
         }
-        return $months;
+        return collect($months); // Convert to collection
     }
 
     public function export(Request $request)

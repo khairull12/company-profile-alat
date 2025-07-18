@@ -295,10 +295,10 @@
     const equipmentChart = new Chart(equipmentCtx, {
         type: 'line',
         data: {
-            labels: @json(collect($monthlyEquipmentData)->pluck('month')),
+            labels: @json($monthlyEquipmentData->pluck('month')),
             datasets: [{
                 label: 'Jumlah Alat Ditambahkan',
-                data: @json(collect($monthlyEquipmentData)->pluck('count')),
+                data: @json($monthlyEquipmentData->pluck('count')),
                 borderColor: '#667eea',
                 backgroundColor: 'rgba(102, 126, 234, 0.1)',
                 borderWidth: 3,
