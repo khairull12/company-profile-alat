@@ -106,7 +106,7 @@ class AdminEquipmentController extends Controller
 
     public function show(Equipment $equipment)
     {
-        $equipment->load('category', 'bookings.user');
+        $equipment->load('category');
         return view('admin.equipment.show', compact('equipment'));
     }
 

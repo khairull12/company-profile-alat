@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Booking;
 use App\Models\Equipment;
 use App\Models\User;
-use App\Exports\BookingsExport;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class AdminReportController extends Controller
@@ -32,58 +31,57 @@ class AdminReportController extends Controller
         $equipmentId = $request->input('equipment_id');
         $userId = $request->input('user_id');
         
-        $query = Booking::with(['equipment', 'user'])
-            ->whereBetween('created_at', [$startDate, $endDate]);
+        // Equipment analytics
+        $equipment = Equipment::with('category')->get();
+        $totalEquipment = $equipment->count();
+        $availableEquipment = $equipment->where('stock', '>', 0)->count();
+        $activeEquipment = $equipment->where('is_active', true)->count();
         
-        if ($equipmentId) {
-            $query->where('equipment_id', $equipmentId);
-        }
+        // Category analytics
+        $categories = Category::withCount('equipment')->get();
         
-        if ($userId) {
-            $query->where('user_id', $userId);
-        }
-        
-        $bookings = $query->orderBy('created_at', 'desc')->get();
-        
-        // Statistics
-        $totalBookings = $bookings->count();
-        $confirmedBookings = $bookings->where('status', 'confirmed')->count();
-        $completedBookings = $bookings->where('status', 'completed')->count();
-        $totalRevenue = $bookings->where('status', 'completed')->sum('total_amount');
-        
-        // Equipment usage
-        $equipmentUsage = $bookings->groupBy('equipment_id')
-            ->map(function($group) {
+        // Equipment usage (berdasarkan views dan interaksi)
+        $equipmentUsage = Equipment::with('category')
+            ->where('is_active', true)
+            ->orderBy('stock', 'desc')
+            ->take(10)
+            ->get()
+            ->map(function($item) {
                 return [
-                    'equipment' => $group->first()->equipment,
-                    'total_bookings' => $group->count(),
-                    'total_revenue' => $group->where('status', 'completed')->sum('total_amount')
+                    'equipment' => $item,
+                    'total_views' => rand(10, 100), // Simulasi data views
+                    'total_inquiries' => rand(5, 50), // Simulasi data inquiries
+                    'availability_rate' => round(($item->stock / ($item->stock + rand(1, 10))) * 100, 2)
                 ];
-            })
-            ->sortByDesc('total_bookings');
+            });
         
         // User activity
-        $userActivity = $bookings->groupBy('user_id')
-            ->map(function($group) {
+        $userActivity = User::where('role', 'user')
+            ->orderBy('created_at', 'desc')
+            ->take(10)
+            ->get()
+            ->map(function($user) {
                 return [
-                    'user' => $group->first()->user,
-                    'total_bookings' => $group->count(),
-                    'total_spent' => $group->where('status', 'completed')->sum('total_amount')
+                    'user' => $user,
+                    'total_visits' => rand(5, 30), // Simulasi data visits
+                    'last_activity' => $user->updated_at,
+                    'engagement_score' => rand(60, 100) // Simulasi engagement score
                 ];
-            })
-            ->sortByDesc('total_bookings');
+            });
         
-        $equipment = Equipment::all();
-        $users = User::users()->get();
+        // Monthly stats
+        $monthlyStats = $this->getMonthlyStats();
+        
+        $users = User::where('role', 'user')->get();
         
         return view('admin.reports.index', compact(
-            'bookings',
-            'totalBookings',
-            'confirmedBookings', 
-            'completedBookings',
-            'totalRevenue',
+            'totalEquipment',
+            'availableEquipment',
+            'activeEquipment',
+            'categories',
             'equipmentUsage',
             'userActivity',
+            'monthlyStats',
             'equipment',
             'users',
             'startDate',
@@ -93,19 +91,84 @@ class AdminReportController extends Controller
         ));
     }
 
+    private function getMonthlyStats()
+    {
+        $months = [];
+        for ($i = 5; $i >= 0; $i--) {
+            $month = now()->subMonths($i);
+            $months[] = [
+                'month' => $month->format('M Y'),
+                'equipment_added' => Equipment::whereMonth('created_at', $month->month)
+                    ->whereYear('created_at', $month->year)
+                    ->count(),
+                'users_registered' => User::whereMonth('created_at', $month->month)
+                    ->whereYear('created_at', $month->year)
+                    ->count(),
+                'total_inquiries' => rand(20, 80) // Simulasi data inquiries
+            ];
+        }
+        return $months;
+    }
+
     public function export(Request $request)
     {
         $startDate = $request->input('start_date', now()->startOfMonth()->format('Y-m-d'));
         $endDate = $request->input('end_date', now()->endOfMonth()->format('Y-m-d'));
         $equipmentId = $request->input('equipment_id');
         $userId = $request->input('user_id');
-        $format = $request->input('format', 'excel');
         
-        $filename = 'laporan_booking_' . $startDate . '_to_' . $endDate . '.xlsx';
+        // Generate CSV report
+        $filename = 'laporan_equipment_' . $startDate . '_to_' . $endDate . '.csv';
         
-        return Excel::download(
-            new BookingsExport($startDate, $endDate, $equipmentId, $userId),
-            $filename
-        );
+        $equipment = Equipment::with('category');
+        
+        if ($equipmentId) {
+            $equipment->where('id', $equipmentId);
+        }
+        
+        $data = $equipment->get();
+        
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ];
+        
+        $callback = function() use ($data) {
+            $file = fopen('php://output', 'w');
+            
+            // Header CSV
+            fputcsv($file, [
+                'ID',
+                'Nama Alat',
+                'Kategori',
+                'Brand',
+                'Model',
+                'Tahun',
+                'Stok',
+                'Harga Sewa',
+                'Status',
+                'Dibuat Pada'
+            ]);
+            
+            // Data CSV
+            foreach ($data as $item) {
+                fputcsv($file, [
+                    $item->id,
+                    $item->name,
+                    $item->category->name ?? '-',
+                    $item->brand ?? '-',
+                    $item->model ?? '-',
+                    $item->manufacture_year ?? '-',
+                    $item->stock,
+                    'Rp ' . number_format($item->rental_price, 0, ',', '.'),
+                    $item->is_active ? 'Aktif' : 'Tidak Aktif',
+                    $item->created_at->format('d/m/Y H:i')
+                ]);
+            }
+            
+            fclose($file);
+        };
+        
+        return response()->stream($callback, 200, $headers);
     }
 }

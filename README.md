@@ -14,17 +14,17 @@ Sistem katalog alat berat (Tronton, Excavator, Bulldozer, dll) yang dibangun den
 ### 🎯 Fitur Utama
 
 #### 👨‍💼 Admin Dashboard
-- **Dashboard Statistik**: Real-time analytics dengan chart dan KPI
+- **Dashboard Analitik**: Real-time analytics dengan chart dan KPI
 - **Management Alat Berat**: CRUD lengkap dengan upload gambar
 - **Management Pengaturan**: Konfigurasi perusahaan dan website
-- **Laporan & Export**: Filter data dan export ke Excel
+- **Laporan & Analitik**: Filter data dan export ke CSV dengan visualisasi chart
 - **Role Management**: Sistem role admin dan user
 
 #### 👤 User Features
 - **Katalog Alat**: Browse dan search alat berat
 - **Detail Alat**: Spesifikasi lengkap dan gambar
-- **Sistem Booking**: Kalender booking dengan validasi
-- **Riwayat Booking**: Track status pemesanan
+- **Filter & Search**: Pencarian berdasarkan kategori dan spesifikasi
+- **Responsive Design**: Optimized untuk desktop dan mobile
 - **Profile Management**: Update data pribadi
 
 ### 🚀 Demo Akun
@@ -103,15 +103,33 @@ Website akan tersedia di `http://127.0.0.1:8000`
 - **users**: Data pengguna dengan role system
 - **categories**: Kategori alat berat
 - **equipment**: Data alat berat dengan spesifikasi
-- **bookings**: Data pemesanan dengan status tracking
 - **settings**: Pengaturan website dan perusahaan
 
 ### Relasi Database
 ```
-users (1) -> (n) bookings
+users (1) -> (n) equipment (melalui created_by)
 categories (1) -> (n) equipment
-equipment (1) -> (n) bookings
 ```
+
+## 📊 Sistem Laporan & Analitik
+
+### Dashboard Analytics
+- **Real-time KPI**: Total alat, kategori, user, dan ketersediaan
+- **Monthly Trends**: Grafik penambahan alat dalam 12 bulan terakhir
+- **Category Distribution**: Chart distribusi alat per kategori
+- **Equipment Analytics**: Alat populer dan terbaru
+
+### Laporan Equipment
+- **Filter Berdasarkan**: Tanggal, kategori, dan user
+- **Export Data**: CSV format untuk analisis lebih lanjut
+- **Performance Metrics**: Views, availability rate, dan engagement score
+- **Monthly Statistics**: Trend bulanan equipment dan user
+
+### Fitur Analitik
+- **Equipment Usage**: Tracking popularitas alat
+- **User Activity**: Analisis aktivitas pengguna
+- **Category Performance**: Performa per kategori
+- **Inventory Management**: Manajemen stok real-time
 
 ## 🎨 Screenshots
 

@@ -151,53 +151,46 @@
                 </div>
                 @endif
 
-                <!-- Recent Bookings -->
+                <!-- Equipment Statistics -->
                 <div class="row mt-4">
                     <div class="col-12">
-                        <h6 class="mb-3">Booking Terbaru</h6>
-                        @if($equipment->bookings()->latest()->limit(5)->count() > 0)
-                            <div class="table-responsive">
-                                <table class="table table-sm">
-                                    <thead>
-                                        <tr>
-                                            <th>Pelanggan</th>
-                                            <th>Tanggal Mulai</th>
-                                            <th>Tanggal Selesai</th>
-                                            <th>Status</th>
-                                            <th>Total Harga</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($equipment->bookings()->with('user')->latest()->limit(5)->get() as $booking)
-                                            <tr>
-                                                <td>{{ $booking->customer_name ?: $booking->user->name }}</td>
-                                                <td>{{ $booking->start_date->format('d/m/Y') }}</td>
-                                                <td>{{ $booking->end_date->format('d/m/Y') }}</td>
-                                                <td>
-                                                    @switch($booking->status)
-                                                        @case('pending')
-                                                            <span class="badge bg-warning">Menunggu</span>
-                                                            @break
-                                                        @case('confirmed')
-                                                            <span class="badge bg-info">Dikonfirmasi</span>
-                                                            @break
-                                                        @case('completed')
-                                                            <span class="badge bg-success">Selesai</span>
-                                                            @break
-                                                        @case('cancelled')
-                                                            <span class="badge bg-danger">Dibatalkan</span>
-                                                            @break
-                                                    @endswitch
-                                                </td>
-                                                <td>Rp {{ number_format($booking->total_price, 0, ',', '.') }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                        <h6 class="mb-3">Statistik Alat</h6>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="card bg-primary text-white">
+                                    <div class="card-body text-center">
+                                        <h4>{{ $equipment->stock }}</h4>
+                                        <p class="mb-0">Stok Tersedia</p>
+                                    </div>
+                                </div>
                             </div>
-                        @else
-                            <p class="text-muted">Belum ada booking untuk alat ini.</p>
-                        @endif
+                            <div class="col-md-3">
+                                <div class="card bg-success text-white">
+                                    <div class="card-body text-center">
+                                        <h4>{{ $equipment->manufacture_year ?? 'N/A' }}</h4>
+                                        <p class="mb-0">Tahun Produksi</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-info text-white">
+                                    <div class="card-body text-center">
+                                        <h4>{{ $equipment->is_active ? 'Aktif' : 'Tidak Aktif' }}</h4>
+                                        <p class="mb-0">Status</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card bg-warning text-white">
+                                    <div class="card-body text-center">
+                                        <h4>{{ $equipment->created_at->format('M Y') }}</h4>
+                                        <p class="mb-0">Ditambahkan</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                     </div>
                 </div>
             </div>

@@ -31,24 +31,54 @@ class AdminController extends Controller
         $availableEquipment = Equipment::where('stock', '>', 0)->count();
         $totalUsers = User::users()->count();
         
-        // Equipment populer (berdasarkan stok)
+        // Monthly equipment trends
+        $monthlyEquipmentData = [];
+        for ($i = 11; $i >= 0; $i--) {
+            $date = now()->subMonths($i);
+            $monthlyEquipmentData[] = [
+                'month' => $date->format('M Y'),
+                'count' => Equipment::whereMonth('created_at', $date->month)
+                    ->whereYear('created_at', $date->year)
+                    ->count()
+            ];
+        }
+        
+        // Equipment populer (berdasarkan stok dan status aktif)
         $popularEquipment = Equipment::where('is_active', true)
             ->orderBy('stock', 'desc')
+            ->orderBy('created_at', 'desc')
             ->take(5)
             ->get();
         
-        // Statistik kategori
+        // Recent equipment (5 terbaru)
+        $recentEquipment = Equipment::with('category')
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
+        
+        // Statistik kategori dengan total equipment
         $categories = Category::withCount('equipment')
             ->orderBy('equipment_count', 'desc')
             ->get();
+            
+        // Quick stats for cards
+        $quickStats = [
+            'total_value' => Equipment::sum('rental_price'),
+            'avg_price' => Equipment::avg('rental_price'),
+            'newest_equipment' => Equipment::latest()->first(),
+            'most_stocked' => Equipment::orderBy('stock', 'desc')->first()
+        ];
             
         return view('admin.dashboard', compact(
             'totalEquipment',
             'totalCategories',
             'availableEquipment',
             'totalUsers',
+            'monthlyEquipmentData',
             'popularEquipment',
-            'categories'
+            'recentEquipment',
+            'categories',
+            'quickStats'
         ));
     }
 }
