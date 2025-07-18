@@ -63,8 +63,8 @@ class AdminController extends Controller
             
         // Quick stats for cards
         $quickStats = [
-            'total_value' => Equipment::sum('rental_price'),
-            'avg_price' => Equipment::avg('rental_price'),
+            'total_value' => Equipment::sum('price_per_day'),
+            'avg_price' => Equipment::avg('price_per_day'),
             'newest_equipment' => Equipment::latest()->first(),
             'most_stocked' => Equipment::orderBy('stock', 'desc')->first()
         ];

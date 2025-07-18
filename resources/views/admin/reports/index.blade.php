@@ -236,7 +236,7 @@
                             <td>{{ $item->category->name ?? '-' }}</td>
                             <td>{{ $item->brand ?? '-' }}</td>
                             <td>{{ $item->stock }} unit</td>
-                            <td>Rp {{ number_format($item->rental_price, 0, ',', '.') }}</td>
+                            <td>Rp {{ number_format($item->price_per_day, 0, ',', '.') }}</td>
                             <td>
                                 @if($item->is_active)
                                     <span class="badge bg-success">Aktif</span>

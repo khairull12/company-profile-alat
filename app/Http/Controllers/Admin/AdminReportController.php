@@ -160,7 +160,7 @@ class AdminReportController extends Controller
                     $item->model ?? '-',
                     $item->manufacture_year ?? '-',
                     $item->stock,
-                    'Rp ' . number_format($item->rental_price, 0, ',', '.'),
+                    'Rp ' . number_format($item->price_per_day, 0, ',', '.'),
                     $item->is_active ? 'Aktif' : 'Tidak Aktif',
                     $item->created_at->format('d/m/Y H:i')
                 ]);
