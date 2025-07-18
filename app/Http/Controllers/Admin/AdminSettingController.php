@@ -99,4 +99,36 @@ class AdminSettingController extends Controller
             'path' => 'images/settings/' . $imageName
         ]);
     }
+
+    public function statistics()
+    {
+        $statistics = Setting::where('group', 'statistics')->orderBy('key')->get();
+        return view('admin.settings.statistics', compact('statistics'));
+    }
+
+    public function updateStatistics(Request $request)
+    {
+        $request->validate([
+            'total_equipment' => 'required|string|max:50',
+            'completed_projects' => 'required|string|max:50',
+            'client_satisfaction' => 'required|string|max:50',
+            'years_experience' => 'required|string|max:50',
+        ]);
+
+        $statisticsData = [
+            'total_equipment' => $request->total_equipment,
+            'completed_projects' => $request->completed_projects,
+            'client_satisfaction' => $request->client_satisfaction,
+            'years_experience' => $request->years_experience,
+        ];
+
+        foreach ($statisticsData as $key => $value) {
+            Setting::where('group', 'statistics')
+                   ->where('key', $key)
+                   ->update(['value' => $value]);
+        }
+
+        return redirect()->route('admin.settings.statistics')
+                        ->with('success', 'Statistik berhasil diperbarui!');
+    }
 }

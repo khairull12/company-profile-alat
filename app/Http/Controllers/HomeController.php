@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Equipment;
 use App\Models\Setting;
-use App\Models\Booking;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -18,10 +17,13 @@ class HomeController extends Controller
         $featuredEquipment = Equipment::active()->available()->take(6)->get();
         $settings = Setting::getGroup('hero');
         
+        // Statistics from database
+        $statistics = Setting::getGroup('statistics');
+        
         // Statistics
         $totalEquipment = Equipment::active()->count();
-        $totalBookings = Booking::where('status', 'completed')->count();
-        $totalUsers = User::where('role', 'user')->count();
+        $totalCategories = Category::count();
+        $totalAvailableEquipment = Equipment::active()->available()->count();
         
         // Company info from settings
         $companySettings = Setting::getGroup('company');
@@ -37,9 +39,10 @@ class HomeController extends Controller
             'categories', 
             'featuredEquipment', 
             'settings',
+            'statistics',
             'totalEquipment',
-            'totalBookings', 
-            'totalUsers',
+            'totalCategories',
+            'totalAvailableEquipment',
             'companyName',
             'companyAddress',
             'companyPhone',

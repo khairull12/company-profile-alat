@@ -33,11 +33,6 @@ class Equipment extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function bookings()
-    {
-        return $this->hasMany(Booking::class);
-    }
-
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
@@ -94,20 +89,5 @@ class Equipment extends Model
         return [];
     }
 
-    public function isAvailableForPeriod($startDate, $endDate)
-    {
-        $conflictingBookings = $this->bookings()
-            ->where('status', '!=', 'cancelled')
-            ->where(function ($query) use ($startDate, $endDate) {
-                $query->whereBetween('start_date', [$startDate, $endDate])
-                    ->orWhereBetween('end_date', [$startDate, $endDate])
-                    ->orWhere(function ($q) use ($startDate, $endDate) {
-                        $q->where('start_date', '<=', $startDate)
-                          ->where('end_date', '>=', $endDate);
-                    });
-            })
-            ->count();
 
-        return $conflictingBookings < $this->stock;
-    }
 }

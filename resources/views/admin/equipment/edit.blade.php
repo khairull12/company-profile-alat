@@ -114,11 +114,15 @@
                 @enderror
             </div>
             
-            @if($equipment->images)
+            @php
+                $currentImages = !empty($equipment->images) ? json_decode($equipment->images, true) : [];
+                $currentImages = is_array($currentImages) ? $currentImages : [];
+            @endphp
+            @if(count($currentImages) > 0)
                 <div class="mb-3">
                     <label class="form-label">Gambar Saat Ini</label>
                     <div class="row">
-                        @foreach($equipment->images as $image)
+                        @foreach($currentImages as $image)
                             <div class="col-md-3 mb-2">
                                 <img src="{{ asset($image) }}" class="img-thumbnail" style="height: 100px; object-fit: cover; width: 100%;">
                             </div>
@@ -139,9 +143,14 @@
             
             <div class="mb-3">
                 <label for="specifications" class="form-label">Spesifikasi</label>
+                @php
+                    $specs = is_string($equipment->specifications) ? json_decode($equipment->specifications, true) : $equipment->specifications;
+                    $specs = is_array($specs) ? $specs : [];
+                    $specsText = collect($specs)->map(fn($v, $k) => "$k: $v")->join("\n");
+                @endphp
                 <textarea class="form-control @error('specifications') is-invalid @enderror" 
                           id="specifications" name="specifications" rows="5" 
-                          placeholder="Masukkan spesifikasi, satu per baris. Contoh:&#10;Engine Power: 200 HP&#10;Operating Weight: 20 Ton&#10;Bucket Capacity: 1.5 m³&#10;Max Digging Depth: 6.5 m">{{ old('specifications', is_array($equipment->specifications) ? implode("\n", array_map(fn($k, $v) => "$k: $v", array_keys($equipment->specifications), $equipment->specifications)) : $equipment->specifications) }}</textarea>
+                          placeholder="Masukkan spesifikasi, satu per baris. Contoh:&#10;Engine Power: 200 HP&#10;Operating Weight: 20 Ton&#10;Bucket Capacity: 1.5 m³&#10;Max Digging Depth: 6.5 m">{{ old('specifications', $specsText) }}</textarea>
                 <div class="form-text">Masukkan spesifikasi satu per baris dengan format: <strong>Nama: Nilai</strong></div>
                 @error('specifications')
                     <div class="invalid-feedback">{{ $message }}</div>

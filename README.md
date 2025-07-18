@@ -9,14 +9,13 @@
 
 ## 📋 Deskripsi Proyek
 
-Sistem manajemen penyewaan alat berat (Tronton, Excavator, Bulldozer, dll) yang dibangun dengan Laravel 11. Sistem ini memiliki fitur lengkap untuk admin dan user dengan interface yang modern dan responsive.
+Sistem katalog alat berat (Tronton, Excavator, Bulldozer, dll) yang dibangun dengan Laravel 11. Sistem ini memiliki fitur lengkap untuk admin dan user dengan interface yang modern dan responsive.
 
 ### 🎯 Fitur Utama
 
 #### 👨‍💼 Admin Dashboard
 - **Dashboard Statistik**: Real-time analytics dengan chart dan KPI
 - **Management Alat Berat**: CRUD lengkap dengan upload gambar
-- **Management Booking**: Approve, reject, dan tracking status
 - **Management Pengaturan**: Konfigurasi perusahaan dan website
 - **Laporan & Export**: Filter data dan export ke Excel
 - **Role Management**: Sistem role admin dan user

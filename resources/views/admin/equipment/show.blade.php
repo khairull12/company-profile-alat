@@ -23,10 +23,13 @@
                     <!-- Equipment Images -->
                     <div class="col-md-6">
                         <h6 class="mb-3">Gambar Alat</h6>
-                        @if($equipment->images && is_array($equipment->images) && count($equipment->images) > 0)
+                        @php
+                            $images = !empty($equipment->images) && is_array($equipment->images) ? $equipment->images : [];
+                        @endphp
+                        @if(count($images) > 0)
                             <div id="equipmentCarousel" class="carousel slide" data-bs-ride="carousel">
                                 <div class="carousel-inner">
-                                    @foreach($equipment->images as $index => $image)
+                                    @foreach($images as $index => $image)
                                         <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
                                             <img src="{{ asset($image) }}" 
                                                  class="d-block w-100 rounded" 
@@ -35,7 +38,7 @@
                                         </div>
                                     @endforeach
                                 </div>
-                                @if(count($equipment->images) > 1)
+                                @if(count($images) > 1)
                                     <button class="carousel-control-prev" type="button" data-bs-target="#equipmentCarousel" data-bs-slide="prev">
                                         <span class="carousel-control-prev-icon"></span>
                                     </button>
@@ -124,25 +127,23 @@
                         <div class="card bg-light">
                             <div class="card-body">
                                 @php
-                                    $specs = $equipment->specifications;
-                                    if (is_string($specs)) {
-                                        $decodedSpecs = json_decode($specs, true);
-                                        if (json_last_error() === JSON_ERROR_NONE && is_array($decodedSpecs)) {
-                                            $specs = $decodedSpecs;
-                                        }
-                                    }
+                                    $specs = is_array($equipment->specifications) ? 
+                                        $equipment->specifications : 
+                                        json_decode($equipment->specifications, true);
+                                    $specs = is_array($specs) ? $specs : [];
                                 @endphp
                                 
-                                @if(is_array($specs))
+                                @if(count($specs) > 0)
                                     <div class="row">
                                         @foreach($specs as $key => $value)
                                             <div class="col-md-6 mb-2">
-                                                <strong>{{ ucwords(str_replace('_', ' ', $key)) }}:</strong> {{ $value }}
+                                                <strong>{{ ucwords(str_replace('_', ' ', $key)) }}:</strong>
+                                                {{ is_array($value) ? implode(', ', $value) : $value }}
                                             </div>
                                         @endforeach
                                     </div>
                                 @else
-                                    {!! nl2br(e($equipment->specifications)) !!}
+                                    <em class="text-muted">Tidak ada spesifikasi detail</em>
                                 @endif
                             </div>
                         </div>

@@ -23,11 +23,6 @@
                     </a>
                 </li>
                 @auth
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('bookings.index') }}">
-                        <i class="fas fa-calendar me-1"></i>Booking Saya
-                    </a>
-                </li>
                 @endauth
             </ul>
             

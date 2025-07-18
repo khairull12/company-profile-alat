@@ -29,8 +29,12 @@
                     @forelse($equipment as $item)
                         <tr>
                             <td>
-                                @if($item->images && count($item->images) > 0)
-                                    <img src="{{ asset('storage/' . $item->images[0]) }}" 
+                                @php
+                                    $images = !empty($item->images) && is_array($item->images) ? $item->images : [];
+                                    $firstImage = !empty($images) ? $images[0] : null;
+                                @endphp
+                                @if($firstImage)
+                                    <img src="{{ asset($firstImage) }}" 
                                          alt="{{ $item->name }}" 
                                          class="img-thumbnail" 
                                          style="width: 60px; height: 60px; object-fit: cover;">

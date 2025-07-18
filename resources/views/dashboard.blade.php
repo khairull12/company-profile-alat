@@ -24,7 +24,6 @@
                         <h3 class="text-lg font-semibold mb-2">Quick Links:</h3>
                         <ul class="space-y-2">
                             <li><a href="{{ route('equipment.index') }}" class="text-blue-600 hover:underline">Browse Equipment</a></li>
-                            <li><a href="{{ route('bookings.index') }}" class="text-blue-600 hover:underline">My Bookings</a></li>
                             <li><a href="{{ route('home') }}" class="text-blue-600 hover:underline">Back to Home</a></li>
                         </ul>
                     </div>

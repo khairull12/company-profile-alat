@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             EquipmentSeeder::class,
             SettingSeeder::class,
+            StatisticsSettingSeeder::class,
         ]);
     }
 }

@@ -11,18 +11,24 @@ class EquipmentController extends Controller
 {
     public function index(Request $request)
     {
-        $categories = Category::active()->get();
-        $query = Equipment::active()->with('category');
+        // Get all active categories
+        $categories = Category::orderBy('name')->get();
         
-        // Filter by category
+        // Initialize equipment query with category relationship
+        $query = Equipment::with('category');
+        
+        // Filter by category if specified
         if ($request->filled('category')) {
             $query->where('category_id', $request->category);
         }
         
-        // Filter by search
+        // Filter by search term
         if ($request->filled('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%')
-                  ->orWhere('description', 'like', '%' . $request->search . '%');
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                  ->orWhere('description', 'like', '%' . $search . '%');
+            });
         }
         
         // Filter by price range
@@ -39,7 +45,7 @@ class EquipmentController extends Controller
             }
         }
         
-        // Sort by price or name
+        // Default sorting by name ascending
         $sortBy = $request->get('sort', 'name');
         $sortDirection = $request->get('direction', 'asc');
         
@@ -47,9 +53,18 @@ class EquipmentController extends Controller
             $query->orderBy($sortBy, $sortDirection);
         }
         
-        $equipment = $query->paginate(12)->withQueryString();
+        // Get paginated results with larger per-page count
+        $equipment = $query->paginate(16)->withQueryString();
         
-        return view('equipment.index', compact('equipment', 'categories'));
+        // Calculate statistics for the view
+        $stats = [
+            'total' => Equipment::count(),
+            'available' => Equipment::where('stock', '>', 0)->count(),
+            'categories' => $categories->count(),
+            'avgPrice' => Equipment::where('stock', '>', 0)->avg('price_per_day') ?? 0
+        ];
+        
+        return view('equipment.index', compact('equipment', 'categories', 'stats'));
     }
 
     public function show(Equipment $equipment)

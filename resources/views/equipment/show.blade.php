@@ -20,16 +20,20 @@
         <!-- Equipment Images -->
         <div class="col-lg-6 mb-4">
             <div class="equipment-gallery">
-                @if($equipment->images && count($equipment->images) > 0)
+                @php
+                    $images = !empty($equipment->images) && is_array($equipment->images) ? $equipment->images : [];
+                @endphp
+                @if(count($images) > 0)
                     <div id="equipmentCarousel" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
-                            @foreach($equipment->images as $index => $image)
+                            @foreach($images as $index => $image)
                                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                    <img src="{{ asset($image) }}" class="d-block w-100 rounded" alt="{{ $equipment->name }}">
+                                    <img src="{{ asset($image) }}" class="d-block w-100 rounded" 
+                                         alt="{{ $equipment->name }} - {{ $equipment->category->name }} (Gambar {{ $index + 1 }} dari {{ count($images) }})">
                                 </div>
                             @endforeach
                         </div>
-                        @if(count($equipment->images) > 1)
+                        @if(count($images) > 1)
                             <button class="carousel-control-prev" type="button" data-bs-target="#equipmentCarousel" data-bs-slide="prev">
                                 <span class="carousel-control-prev-icon"></span>
                             </button>
@@ -103,36 +107,33 @@
                         <h5>Spesifikasi</h5>
                         <div class="row">
                             @php
-                                $specs = $equipment->specifications_array;
+                                $specs = is_array($equipment->specifications) ? 
+                                    $equipment->specifications : 
+                                    json_decode($equipment->specifications, true);
+                                $specs = is_array($specs) ? $specs : [];
                             @endphp
-                            @if(is_array($specs) && count($specs) > 0)
+                            @if(count($specs) > 0)
                                 @foreach($specs as $key => $value)
                                     <div class="col-6 mb-2">
                                         <strong>{{ ucfirst(str_replace('_', ' ', $key)) }}:</strong><br>
-                                        {{ $value }}
+                                        {{ is_array($value) ? implode(', ', $value) : $value }}
                                     </div>
                                 @endforeach
                             @else
                                 <div class="col-12">
-                                    <p class="text-muted">{{ $equipment->specifications }}</p>
+                                    <p class="text-muted">Tidak ada spesifikasi tersedia</p>
                                 </div>
                             @endif
                         </div>
                     </div>
                 @endif
                 
-                <div class="booking-actions">
-                    @auth
-                        <a href="{{ route('bookings.create', $equipment) }}" class="btn btn-primary btn-lg me-3">
-                            <i class="fas fa-calendar me-2"></i>Booking Sekarang
-                        </a>
-                    @else
-                        <a href="{{ route('login') }}" class="btn btn-primary btn-lg me-3">
-                            <i class="fas fa-sign-in-alt me-2"></i>Login untuk Booking
-                        </a>
-                    @endauth
+                <div class="contact-actions">
+                    <a href="tel:{{ config('company.phone', '+62123456789') }}" class="btn btn-primary btn-lg me-3">
+                        <i class="fas fa-phone me-2"></i>Hubungi untuk Sewa
+                    </a>
                     <a href="{{ route('contact') }}" class="btn btn-outline-primary btn-lg">
-                        <i class="fas fa-phone me-2"></i>Hubungi Kami
+                        <i class="fas fa-envelope me-2"></i>Kirim Pesan
                     </a>
                 </div>
             </div>
@@ -150,11 +151,17 @@
             @foreach($relatedEquipment as $item)
                 <div class="col-lg-3 col-md-6 mb-4">
                     <div class="card equipment-card h-100">
-                        @if($item->first_image)
-                            <img src="{{ asset($item->first_image) }}" class="card-img-top" alt="{{ $item->name }}">
+                        @php
+                            $itemImages = !empty($item->images) && is_array($item->images) ? $item->images : [];
+                            $firstImage = !empty($itemImages) ? $itemImages[0] : null;
+                        @endphp
+                        @if($firstImage)
+                            <img src="{{ asset($firstImage) }}" class="card-img-top" 
+                                alt="{{ $item->name }} - {{ $item->category->name }} (Rp {{ number_format($item->price_per_day, 0, ',', '.') }}/hari)">
                         @else
                             <img src="https://via.placeholder.com/250x150/2563eb/ffffff?text={{ urlencode($item->name) }}" 
-                                 class="card-img-top" alt="{{ $item->name }}">
+                                 class="card-img-top" 
+                                 alt="{{ $item->name }} - {{ $item->category->name }} (Rp {{ number_format($item->price_per_day, 0, ',', '.') }}/hari)">
                         @endif
                         <div class="price-badge">Rp {{ number_format($item->price_per_day, 0, ',', '.') }}/hari</div>
                         <div class="card-body">

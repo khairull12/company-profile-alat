@@ -95,7 +95,7 @@ class AdminEquipmentController extends Controller
                 $image->move(public_path('images/equipment'), $imageName);
                 $images[] = 'images/equipment/' . $imageName;
             }
-            $data['images'] = json_encode($images);
+            $data['images'] = $images; // Let the model cast handle JSON encoding
         }
         
         Equipment::create($data);
@@ -165,7 +165,7 @@ class AdminEquipmentController extends Controller
                 $image->move(public_path('images/equipment'), $imageName);
                 $images[] = 'images/equipment/' . $imageName;
             }
-            $data['images'] = json_encode($images);
+            $data['images'] = $images; // Let the model cast handle JSON encoding
         }
         
         $equipment->update($data);
