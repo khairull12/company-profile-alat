@@ -18,14 +18,6 @@ return new class extends Migration
             $table->index(['slug']); // For SEO friendly URLs
         });
 
-        Schema::table('bookings', function (Blueprint $table) {
-            $table->index(['user_id', 'status']); // For user booking history
-            $table->index(['equipment_id', 'status']); // For equipment booking history
-            $table->index(['status', 'created_at']); // For admin dashboard
-            $table->index(['start_date', 'end_date']); // For availability checking
-            $table->index(['booking_code']); // For booking search
-        });
-
         Schema::table('users', function (Blueprint $table) {
             $table->index(['role']); // For role-based queries
             $table->index(['email', 'role']); // For authentication
@@ -52,14 +44,6 @@ return new class extends Migration
             $table->dropIndex(['price_per_day']);
             $table->dropIndex(['is_active', 'stock']);
             $table->dropIndex(['slug']);
-        });
-
-        Schema::table('bookings', function (Blueprint $table) {
-            $table->dropIndex(['user_id', 'status']);
-            $table->dropIndex(['equipment_id', 'status']);
-            $table->dropIndex(['status', 'created_at']);
-            $table->dropIndex(['start_date', 'end_date']);
-            $table->dropIndex(['booking_code']);
         });
 
         Schema::table('users', function (Blueprint $table) {

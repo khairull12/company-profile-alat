@@ -873,6 +873,89 @@
                 padding-bottom: 1rem;
             }
         }
+
+        /* Dark Mode Overrides */
+        .text-muted {
+            color: var(--text-muted) !important;
+        }
+
+        .text-dark {
+            color: var(--text-light) !important;
+        }
+
+        /* Breadcrumb Dark Mode */
+        .breadcrumb {
+            background: var(--dark-card);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+        }
+
+        .breadcrumb-item a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .breadcrumb-item.active {
+            color: var(--text-muted);
+        }
+
+        .breadcrumb-item + .breadcrumb-item::before {
+            color: var(--text-muted);
+        }
+
+        /* Equipment Detail Page Specific */
+        .equipment-meta, .equipment-info {
+            background: var(--dark-card) !important;
+            border: 1px solid rgba(148, 163, 184, 0.1) !important;
+            color: var(--text-light) !important;
+        }
+
+        .equipment-meta strong, .equipment-info strong {
+            color: var(--text-light) !important;
+        }
+
+        .equipment-details h1, .equipment-details h2, .equipment-details h3, 
+        .equipment-details h4, .equipment-details h5, .equipment-details h6 {
+            color: var(--text-light) !important;
+        }
+
+        .equipment-details p {
+            color: var(--text-muted) !important;
+        }
+
+        .equipment-details .description p {
+            color: var(--text-muted) !important;
+        }
+
+        .equipment-details .specifications strong {
+            color: var(--text-light) !important;
+        }
+
+        /* Price and Badge Styling */
+        .price-info .text-primary {
+            color: var(--primary-color) !important;
+        }
+
+        .badge.bg-primary {
+            background-color: var(--primary-color) !important;
+        }
+
+        .badge.bg-success {
+            background-color: var(--success-color) !important;
+        }
+
+        /* Button Dark Mode */
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
     </style>
     
     @stack('styles')

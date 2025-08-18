@@ -50,21 +50,26 @@ class Equipment extends Model
 
     public function getSpecificationsArrayAttribute()
     {
-        // Get the raw specifications attribute to avoid infinite recursion
-        $specifications = $this->attributes['specifications'] ?? null;
+        // Get the specifications attribute
+        $specifications = $this->specifications;
         
         if (!$specifications) {
             return [];
         }
         
-        // If specifications is stored as JSON string, decode it
+        // If already an array, return it
+        if (is_array($specifications)) {
+            return $specifications;
+        }
+        
+        // If it's a string, try to decode as JSON
         if (is_string($specifications)) {
             $decodedSpecs = json_decode($specifications, true);
             if (json_last_error() === JSON_ERROR_NONE && is_array($decodedSpecs)) {
                 return $decodedSpecs;
             }
             
-            // If it's not JSON, treat as text format and convert to array
+            // If not JSON, treat as text and convert to array
             $specs = [];
             $lines = explode("\n", $specifications);
             
@@ -81,12 +86,24 @@ class Equipment extends Model
             return $specs;
         }
         
-        // If it's already an array, return it
-        if (is_array($specifications)) {
-            return $specifications;
+        return [];
+    }
+
+    public function getSpecificationsAttribute($value)
+    {
+        if (!$value) {
+            return [];
         }
         
-        return [];
+        // Try to decode JSON
+        if (is_string($value)) {
+            $decoded = json_decode($value, true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                return $decoded;
+            }
+        }
+        
+        return is_array($value) ? $value : [];
     }
 
 

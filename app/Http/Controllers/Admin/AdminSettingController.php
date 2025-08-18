@@ -59,17 +59,85 @@ class AdminSettingController extends Controller
 
     public function update(Request $request, $group)
     {
-        $request->validate([
-            'settings' => 'required|array',
-            'settings.*' => 'nullable|string'
-        ]);
+        try {
+            \Log::info('Settings update request', [
+                'group' => $group,
+                'settings' => $request->settings,
+                'files' => $request->allFiles()
+            ]);
 
-        foreach ($request->settings as $key => $value) {
-            Setting::where('key', $key)->update(['value' => $value]);
+            $request->validate([
+                'settings' => 'required|array',
+                'settings.*' => 'nullable'
+            ]);
+
+            $updatedCount = 0;
+
+            foreach ($request->settings as $key => $value) {
+                $setting = Setting::where('key', $key)->first();
+                
+                if (!$setting) {
+                    \Log::warning("Setting not found: $key");
+                    continue;
+                }
+
+                // Handle image uploads
+                if ($setting->type == 'image' && $request->hasFile("settings.$key")) {
+                    $image = $request->file("settings.$key");
+                    
+                    // Validate image
+                    $request->validate([
+                        "settings.$key" => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+                    ]);
+                    
+                    // Create directory if not exists
+                    $uploadPath = public_path('storage/settings');
+                    if (!file_exists($uploadPath)) {
+                        mkdir($uploadPath, 0755, true);
+                    }
+                    
+                    // Delete old image if exists
+                    if ($setting->value && file_exists(public_path('storage/' . $setting->value))) {
+                        unlink(public_path('storage/' . $setting->value));
+                    }
+                    
+                    // Upload new image
+                    $imageName = time() . '_' . $key . '.' . $image->getClientOriginalExtension();
+                    $image->move($uploadPath, $imageName);
+                    $value = 'settings/' . $imageName;
+                    
+                    \Log::info("Image uploaded for $key: $value");
+                } else if ($setting->type == 'image' && !$request->hasFile("settings.$key")) {
+                    // If no new image uploaded, keep the existing value
+                    \Log::info("No new image for $key, keeping existing");
+                    continue;
+                }
+
+                // Only update if value has changed
+                if ($setting->value !== $value) {
+                    Setting::where('key', $key)->update(['value' => $value]);
+                    $updatedCount++;
+                    \Log::info("Setting updated: $key = $value");
+                }
+            }
+
+            $message = $updatedCount > 0 
+                ? "Pengaturan berhasil diperbarui. {$updatedCount} pengaturan diubah."
+                : "Tidak ada perubahan yang disimpan.";
+
+            return redirect()->route('admin.settings.index')
+                ->with('success', $message);
+
+        } catch (\Exception $e) {
+            \Log::error('Settings update failed', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Terjadi kesalahan saat menyimpan pengaturan: ' . $e->getMessage());
         }
-
-        return redirect()->route('admin.settings.index')
-            ->with('success', 'Pengaturan berhasil diperbarui.');
     }
 
     public function destroy($id)

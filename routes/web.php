@@ -6,7 +6,7 @@ use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminEquipmentController;
 use App\Http\Controllers\Admin\AdminSettingController;
-use App\Http\Controllers\Admin\AdminReportController;
+use App\Http\Controllers\Admin\AdminBookingController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
@@ -31,6 +31,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Equipment management
     Route::resource('equipment', AdminEquipmentController::class);
     
+    // Booking management  
+    Route::get('/bookings/monthly-report', [AdminBookingController::class, 'monthlyReport'])->name('bookings.monthly-report');
+    Route::get('/bookings/report', [AdminBookingController::class, 'report'])->name('bookings.report');
+    Route::resource('bookings', AdminBookingController::class);
+    Route::patch('/bookings/{booking}/status', [AdminBookingController::class, 'updateStatus'])->name('bookings.update-status');
+    
     // Settings management
     Route::get('/settings', [AdminSettingController::class, 'index'])->name('settings.index');
     Route::get('/settings/create', [AdminSettingController::class, 'create'])->name('settings.create');
@@ -45,10 +51,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/settings/{group}/edit', [AdminSettingController::class, 'edit'])->name('settings.edit');
     Route::put('/settings/{group}', [AdminSettingController::class, 'update'])->name('settings.update');
     Route::delete('/settings/{id}', [AdminSettingController::class, 'destroy'])->name('settings.destroy');
-    
-    // Reports
-    Route::get('/reports', [AdminReportController::class, 'index'])->name('reports.index');
-    Route::get('/reports/export', [AdminReportController::class, 'export'])->name('reports.export');
 });
 
 // Profile routes

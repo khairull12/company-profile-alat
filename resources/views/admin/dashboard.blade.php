@@ -257,28 +257,34 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="col-lg-2 col-md-4 mb-3">
                         <a href="{{ route('admin.equipment.create') }}" class="btn btn-primary w-100">
                             <i class="fas fa-plus me-2"></i>
                             Tambah Alat Baru
                         </a>
                     </div>
-                    <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="col-lg-2 col-md-4 mb-3">
                         <a href="{{ route('admin.equipment.index') }}" class="btn btn-success w-100">
                             <i class="fas fa-list me-2"></i>
                             Kelola Alat
                         </a>
                     </div>
-                    <div class="col-lg-3 col-md-6 mb-3">
-                        <a href="{{ route('admin.settings.index') }}" class="btn btn-info w-100">
-                            <i class="fas fa-cog me-2"></i>
-                            Pengaturan Website
+                    <div class="col-lg-2 col-md-4 mb-3">
+                        <a href="{{ route('admin.bookings.index') }}" class="btn btn-secondary w-100">
+                            <i class="fas fa-calendar-check me-2"></i>
+                            Kelola Booking
                         </a>
                     </div>
-                    <div class="col-lg-3 col-md-6 mb-3">
-                        <a href="{{ route('admin.reports.index') }}" class="btn btn-warning w-100">
-                            <i class="fas fa-chart-bar me-2"></i>
-                            Lihat Laporan
+                    <div class="col-lg-2 col-md-4 mb-3">
+                        <a href="{{ route('admin.bookings.monthly-report') }}" class="btn btn-info w-100">
+                            <i class="fas fa-chart-line me-2"></i>
+                            Laporan Bulanan
+                        </a>
+                    </div>
+                    <div class="col-lg-2 col-md-4 mb-3">
+                        <a href="{{ route('admin.settings.index') }}" class="btn btn-dark w-100">
+                            <i class="fas fa-cog me-2"></i>
+                            Pengaturan Website
                         </a>
                     </div>
                 </div>

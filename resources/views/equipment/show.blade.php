@@ -102,29 +102,25 @@
                     <p>{{ $equipment->description }}</p>
                 </div>
                 
-                @if($equipment->specifications)
+                @php
+                    $specs = $equipment->specifications;
+                @endphp
+                @if($specs && is_array($specs) && count($specs) > 0)
                     <div class="specifications mb-4">
                         <h5>Spesifikasi</h5>
                         <div class="row">
-                            @php
-                                $specs = is_array($equipment->specifications) ? 
-                                    $equipment->specifications : 
-                                    json_decode($equipment->specifications, true);
-                                $specs = is_array($specs) ? $specs : [];
-                            @endphp
-                            @if(count($specs) > 0)
-                                @foreach($specs as $key => $value)
-                                    <div class="col-6 mb-2">
-                                        <strong>{{ ucfirst(str_replace('_', ' ', $key)) }}:</strong><br>
-                                        {{ is_array($value) ? implode(', ', $value) : $value }}
-                                    </div>
-                                @endforeach
-                            @else
-                                <div class="col-12">
-                                    <p class="text-muted">Tidak ada spesifikasi tersedia</p>
+                            @foreach($specs as $key => $value)
+                                <div class="col-6 mb-2">
+                                    <strong>{{ ucfirst(str_replace('_', ' ', $key)) }}:</strong><br>
+                                    {{ is_array($value) ? implode(', ', $value) : $value }}
                                 </div>
-                            @endif
+                            @endforeach
                         </div>
+                    </div>
+                @else
+                    <div class="specifications mb-4">
+                        <h5>Spesifikasi</h5>
+                        <p class="text-muted">Tidak ada spesifikasi tersedia</p>
                     </div>
                 @endif
                 
@@ -187,9 +183,96 @@
 }
 
 .equipment-meta, .equipment-info {
-    background: #f8f9fa;
+    background: var(--dark-card);
+    border: 1px solid rgba(148, 163, 184, 0.1);
     padding: 1rem;
     border-radius: 0.5rem;
+    color: var(--text-light);
+}
+
+.equipment-meta strong, .equipment-info strong {
+    color: var(--text-light);
+}
+
+.equipment-details h1 {
+    color: var(--text-light);
+}
+
+.equipment-details h5 {
+    color: var(--text-light);
+}
+
+.equipment-details p {
+    color: var(--text-muted);
+}
+
+.equipment-details .description p {
+    color: var(--text-muted);
+}
+
+.equipment-details .specifications strong {
+    color: var(--text-light);
+}
+
+.equipment-details .specifications {
+    color: var(--text-muted);
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+.breadcrumb {
+    background: var(--dark-card);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+}
+
+.breadcrumb-item a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.breadcrumb-item.active {
+    color: var(--text-muted);
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: var(--text-muted);
+}
+
+/* Related Equipment Cards */
+.equipment-card {
+    background: var(--dark-card);
+    border: 1px solid rgba(148, 163, 184, 0.1);
+    transition: all 0.3s ease;
+}
+
+.equipment-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+    border-color: var(--primary-color);
+}
+
+.equipment-card .card-title {
+    color: var(--text-light);
+}
+
+.equipment-card .card-text {
+    color: var(--text-muted);
+}
+
+.price-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.8rem;
+    font-weight: 600;
 }
 </style>
 @endsection

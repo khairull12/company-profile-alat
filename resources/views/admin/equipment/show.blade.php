@@ -120,31 +120,27 @@
                 </div>
 
                 <!-- Specifications -->
-                @if($equipment->specifications)
+                @php
+                    $specs = $equipment->specifications;
+                @endphp
+                @if($specs && is_array($specs) && count($specs) > 0)
                 <div class="row mt-4">
                     <div class="col-12">
                         <h6 class="mb-3">Spesifikasi</h6>
                         <div class="card bg-light">
                             <div class="card-body">
-                                @php
-                                    $specs = is_array($equipment->specifications) ? 
-                                        $equipment->specifications : 
-                                        json_decode($equipment->specifications, true);
-                                    $specs = is_array($specs) ? $specs : [];
-                                @endphp
-                                
-                                @if(count($specs) > 0)
-                                    <div class="row">
-                                        @foreach($specs as $key => $value)
-                                            <div class="col-md-6 mb-2">
-                                                <strong>{{ ucwords(str_replace('_', ' ', $key)) }}:</strong>
-                                                {{ is_array($value) ? implode(', ', $value) : $value }}
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                @else
-                                    <em class="text-muted">Tidak ada spesifikasi detail</em>
-                                @endif
+                                <div class="row">
+                                    @foreach($specs as $key => $value)
+                                        <div class="col-md-6 mb-2">
+                                            <strong>{{ ucwords(str_replace('_', ' ', $key)) }}:</strong>
+                                            {{ is_array($value) ? implode(', ', $value) : $value }}
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                             </div>
                         </div>
                     </div>
