@@ -29,7 +29,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key' => 'company_address',
-                'value' => 'Jl. Industri Raya No. 123, Jakarta Timur, DKI Jakarta 13750',
+                'value' => 'Jl. Apel, Gg Pisang Berangan, No.46',
                 'type' => 'textarea',
                 'group' => 'company'
             ],
@@ -75,7 +75,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key' => 'vision_content',
-                'value' => 'Menjadi perusahaan penyedia layanan penyewaan alat berat terkemuka di Indonesia yang dipercaya dan memberikan solusi terbaik untuk setiap kebutuhan konstruksi.',
+                'value' => 'Menjadi perusahaan jasa terkemuka dan di akui serta yang mampu bersaing secara sehat, dalam pengelolaan dan pelaksanaan sesuai bidang usaha untuk ikut berperan dalam pembangunan yang baik dan berkualitas di masa depan.',
                 'type' => 'editor',
                 'group' => 'vision_mission'
             ],
@@ -87,7 +87,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key' => 'mission_content',
-                'value' => '<ul><li>Menyediakan alat berat berkualitas tinggi dengan kondisi prima</li><li>Memberikan pelayanan profesional dan responsif kepada setiap klien</li><li>Membantu kesuksesan proyek konstruksi dengan dukungan teknis terbaik</li><li>Mengutamakan keselamatan dan keamanan dalam setiap operasional</li><li>Terus berinovasi untuk meningkatkan kualitas layanan</li></ul>',
+                'value' => '<ul><li>Meningkatkan Pelayanan, Menjaga dan menjamin kualitas dalam usaha yang dijalani</li><li>Mengutamakan kerja sama team guna mewujudkan hasil kerja sama yang baik</li><li>Memberikan lingkungan kerja yang aman dan nyaman, meningkatkan kesejahteraan dan memberikan kesempatan berkembang pada karyawan</li><li>Bertanggung jawab atas tugas dan kewajiban dalam menjalankan dan mengerjakan setiap pekerjaan proyek</li><li>Bertanggung jawab terhadap aspek lingkungan yang di timbulkan dari hasil pekerjaan dengan tetap menjaga serta melestarikan lingkungan hidup yang lebih baik</li><li>Selalu berkomitmen dalam mengupayakan penyelesaian pekerjaan dengan tepat waktu tanpa mengurangi kualitas pekerjaan maupun pelayanan</li></ul>',
                 'type' => 'editor',
                 'group' => 'vision_mission'
             ],
