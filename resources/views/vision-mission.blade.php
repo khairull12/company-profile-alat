@@ -33,7 +33,7 @@
 </section>
 
 <!-- Vision & Mission Content Section -->
-<section class="vision-mission-section py-5" id="vision-mission-content" style="background: var(--dark-bg);">
+<section class="vision-mission-section py-5" id="vision-mission-content" style="background: transparent;">
     <div class="container">
         <div class="row">
             <!-- Vision Card -->
@@ -136,65 +136,7 @@
     </div>
 </section>
 
-<!-- Timeline Section -->
-<section class="timeline-section py-5" style="background: var(--dark-bg);">
-    <div class="container">
-        <div class="section-header text-center mb-5">
-            <div class="section-badge">
-                <i class="fas fa-history"></i>
-                <span>Perjalanan Kami</span>
-            </div>
-            <h2 class="section-title">Sejarah & Milestone</h2>
-            <p class="section-subtitle">
-                Pencapaian dan perkembangan PT. Dhiva Sarana sepanjang masa
-            </p>
-        </div>
 
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="timeline" style="position: relative; padding-left: 2rem;">
-                    <div style="content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--primary-color), var(--accent-color));"></div>
-                    
-                    <div class="timeline-item" style="position: relative; margin-bottom: 3rem; padding-left: 3rem;">
-                        <div style="content: ''; position: absolute; left: -0.5rem; top: 0.5rem; width: 1rem; height: 1rem; background: var(--primary-color); border-radius: 50%; box-shadow: 0 0 0 3px var(--dark-bg), 0 0 0 6px var(--primary-color);"></div>
-                        <div class="timeline-year" style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color); margin-bottom: 0.5rem;">2008</div>
-                        <div class="timeline-content">
-                            <h5 style="color: var(--text-light); font-weight: 600; margin-bottom: 0.5rem;">Pendirian Perusahaan</h5>
-                            <p style="color: var(--text-muted); line-height: 1.6; margin: 0;">Memulai perjalanan sebagai perusahaan penyewaan alat berat dengan visi besar untuk melayani industri konstruksi Indonesia.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item" style="position: relative; margin-bottom: 3rem; padding-left: 3rem;">
-                        <div style="content: ''; position: absolute; left: -0.5rem; top: 0.5rem; width: 1rem; height: 1rem; background: var(--primary-color); border-radius: 50%; box-shadow: 0 0 0 3px var(--dark-bg), 0 0 0 6px var(--primary-color);"></div>
-                        <div class="timeline-year" style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color); margin-bottom: 0.5rem;">2012</div>
-                        <div class="timeline-content">
-                            <h5 style="color: var(--text-light); font-weight: 600; margin-bottom: 0.5rem;">Ekspansi Armada</h5>
-                            <p style="color: var(--text-muted); line-height: 1.6; margin: 0;">Menambah koleksi alat berat hingga 100+ unit dengan berbagai kategori untuk memenuhi kebutuhan proyek yang beragam.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item" style="position: relative; margin-bottom: 3rem; padding-left: 3rem;">
-                        <div style="content: ''; position: absolute; left: -0.5rem; top: 0.5rem; width: 1rem; height: 1rem; background: var(--primary-color); border-radius: 50%; box-shadow: 0 0 0 3px var(--dark-bg), 0 0 0 6px var(--primary-color);"></div>
-                        <div class="timeline-year" style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color); margin-bottom: 0.5rem;">2018</div>
-                        <div class="timeline-content">
-                            <h5 style="color: var(--text-light); font-weight: 600; margin-bottom: 0.5rem;">Sertifikasi ISO</h5>
-                            <p style="color: var(--text-muted); line-height: 1.6; margin: 0;">Meraih sertifikasi ISO 9001:2015 untuk sistem manajemen mutu yang memastikan standar pelayanan internasional.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item" style="position: relative; margin-bottom: 0; padding-left: 3rem;">
-                        <div style="content: ''; position: absolute; left: -0.5rem; top: 0.5rem; width: 1rem; height: 1rem; background: var(--primary-color); border-radius: 50%; box-shadow: 0 0 0 3px var(--dark-bg), 0 0 0 6px var(--primary-color);"></div>
-                        <div class="timeline-year" style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color); margin-bottom: 0.5rem;">2025</div>
-                        <div class="timeline-content">
-                            <h5 style="color: var(--text-light); font-weight: 600; margin-bottom: 0.5rem;">Era Digital</h5>
-                            <p style="color: var(--text-muted); line-height: 1.6; margin: 0;">Mengimplementasikan sistem digital untuk meningkatkan efisiensi operasional dan kemudahan akses layanan bagi klien.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 <!-- CTA Section -->
 <section class="cta-section">

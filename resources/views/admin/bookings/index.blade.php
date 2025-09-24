@@ -134,9 +134,7 @@
                         <a href="{{ route('admin.bookings.index') }}" class="btn btn-outline-secondary">
                             <i class="fas fa-refresh me-1"></i>Reset
                         </a>
-                        <a href="{{ route('admin.bookings.report') }}" class="btn btn-success">
-                            <i class="fas fa-file-excel me-1"></i>Laporan
-                        </a>
+                        <!-- Laporan button removed -->
                     </div>
                 </div>
             </div>
@@ -166,8 +164,8 @@
                                 <small class="text-muted">{{ $booking->created_at->format('d M Y H:i') }}</small>
                             </td>
                             <td>
-                                <strong>{{ $booking->user->name }}</strong><br>
-                                <small class="text-muted">{{ $booking->user->email }}</small>
+                                <strong>{{ $booking->customer_name }}</strong><br>
+                                <small class="text-muted">{{ $booking->customer_email }}</small>
                             </td>
                             <td>
                                 <strong>{{ $booking->equipment->name }}</strong><br>
@@ -178,7 +176,7 @@
                                 {{ $booking->end_date->format('d M Y') }}
                             </td>
                             <td>{{ $booking->duration_days }} hari</td>
-                            <td>Rp {{ number_format($booking->total_amount, 0, ',', '.') }}</td>
+                            <td>Rp {{ number_format($booking->total_price ?? 0, 0, ',', '.') }}</td>
                             <td>
                                 @if($booking->status == 'pending')
                                     <span class="badge bg-warning">Pending</span>

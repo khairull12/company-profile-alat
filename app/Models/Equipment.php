@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Equipment extends Model
 {
+    use HasFactory;
+    
     protected $fillable = [
         'name',
         'slug',
@@ -31,6 +34,11 @@ class Equipment extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
     }
 
     public function scopeActive($query)
@@ -106,5 +114,45 @@ class Equipment extends Model
         return is_array($value) ? $value : [];
     }
 
+    /**
+     * Decrease the equipment stock by the specified quantity
+     * 
+     * @param int $quantity
+     * @return bool
+     * @throws \Exception
+     */
+    public function decreaseStock(int $quantity = 1): bool
+    {
+        if ($this->stock < $quantity) {
+            throw new \Exception('Insufficient stock available');
+        }
 
+        return $this->update([
+            'stock' => $this->stock - $quantity
+        ]);
+    }
+
+    /**
+     * Increase the equipment stock by the specified quantity
+     * 
+     * @param int $quantity
+     * @return bool
+     */
+    public function increaseStock(int $quantity = 1): bool
+    {
+        return $this->update([
+            'stock' => $this->stock + $quantity
+        ]);
+    }
+
+    /**
+     * Check if the equipment has sufficient stock
+     * 
+     * @param int $quantity
+     * @return bool
+     */
+    public function hasStock(int $quantity = 1): bool
+    {
+        return $this->stock >= $quantity;
+    }
 }

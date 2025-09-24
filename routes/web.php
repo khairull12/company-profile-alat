@@ -32,10 +32,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('equipment', AdminEquipmentController::class);
     
     // Booking management  
-    Route::get('/bookings/monthly-report', [AdminBookingController::class, 'monthlyReport'])->name('bookings.monthly-report');
-    Route::get('/bookings/report', [AdminBookingController::class, 'report'])->name('bookings.report');
     Route::resource('bookings', AdminBookingController::class);
     Route::patch('/bookings/{booking}/status', [AdminBookingController::class, 'updateStatus'])->name('bookings.update-status');
+    // Report routes have been removed
     
     // Settings management
     Route::get('/settings', [AdminSettingController::class, 'index'])->name('settings.index');

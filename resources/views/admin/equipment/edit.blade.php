@@ -115,7 +115,7 @@
             </div>
             
             @php
-                $currentImages = !empty($equipment->images) ? json_decode($equipment->images, true) : [];
+                $currentImages = $equipment->images ?? [];
                 $currentImages = is_array($currentImages) ? $currentImages : [];
             @endphp
             @if(count($currentImages) > 0)

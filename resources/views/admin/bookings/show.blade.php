@@ -47,11 +47,11 @@
                         <table class="table table-sm table-borderless">
                             <tr>
                                 <td class="fw-semibold" style="width: 120px;">Customer:</td>
-                                <td>{{ $booking->user->name }}</td>
+                                <td>{{ optional($booking->user)->name ?? '-' }}</td>
                             </tr>
                             <tr>
                                 <td class="fw-semibold">Email:</td>
-                                <td>{{ $booking->user->email }}</td>
+                                <td>{{ optional($booking->user)->email ?? '-' }}</td>
                             </tr>
                             <tr>
                                 <td class="fw-semibold">Nama Kontak:</td>

@@ -38,14 +38,7 @@
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label">Customer <span class="text-danger">*</span></label>
-                        <select name="user_id" class="form-select" required>
-                            <option value="">Pilih Customer</option>
-                            @foreach($users as $user)
-                                <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
-                                    {{ $user->name }} ({{ $user->email }})
-                                </option>
-                            @endforeach
-                        </select>
+                        <input type="text" name="customer_name" class="form-control" value="{{ old('customer_name') }}" required placeholder="Nama Customer">
                     </div>
                 </div>
                 <div class="col-md-6">

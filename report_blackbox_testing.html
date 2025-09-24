@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Black Box Testing - Sistem Manajemen Rental Alat Berat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1, h2 {
+            color: #2c3e50;
+            margin-top: 30px;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            font-weight: bold;
+        }
+        .fail {
+            background-color: #f8d7da;
+            color: #721c24;
+            font-weight: bold;
+        }
+        .section {
+            margin-bottom: 40px;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #777;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>LAPORAN BLACK BOX TESTING</h1>
+            <h2>Sistem Manajemen Rental Alat Berat</h2>
+            <p>Tanggal Pengujian: 15 September 2025</p>
+        </div>
+
+        <div class="section">
+            <h2>1. Pengujian Halaman Publik</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Fungsi/Fitur yang Diuji</th>
+                        <th>Skenario Pengujian</th>
+                        <th>Hasil Eksekusi</th>
+                        <th>Keterangan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Halaman Utama (Home)</td>
+                        <td>Mengakses URL utama (/)</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menampilkan halaman utama dengan informasi perusahaan</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Halaman Utama dengan Alat Berat</td>
+                        <td>Mengakses halaman utama dengan data alat berat</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menampilkan alat berat yang tersedia pada halaman utama</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Halaman Utama dengan Statistik</td>
+                        <td>Mengakses halaman utama dengan statistik aktif</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menampilkan jumlah proyek selesai, klien, dan alat berat</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Halaman About</td>
+                        <td>Mengakses halaman about</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menampilkan informasi tentang perusahaan</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Halaman Visi & Misi</td>
+                        <td>Mengakses halaman visi & misi</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menampilkan visi dan misi perusahaan</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Halaman Kontak</td>
+                        <td>Mengakses halaman kontak</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menampilkan informasi kontak perusahaan</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>2. Pengujian Fitur Equipment (Alat Berat)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Fungsi/Fitur yang Diuji</th>
+                        <th>Skenario Pengujian</th>
+                        <th>Hasil Eksekusi</th>
+                        <th>Keterangan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Daftar Alat Berat</td>
+                        <td>Mengakses halaman equipment</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menampilkan daftar alat berat yang tersedia</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Alat Berat Tidak Aktif</td>
+                        <td>Mengakses alat berat tidak aktif</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem hanya menampilkan alat berat dengan status aktif</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Detail Alat Berat</td>
+                        <td>Mengakses halaman detail alat berat</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menampilkan informasi rinci tentang alat berat</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Detail Alat Berat Tidak Aktif</td>
+                        <td>Mengakses detail alat berat tidak aktif</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem tidak mengizinkan akses ke alat berat tidak aktif</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Filter Alat Berat berdasarkan Kategori</td>
+                        <td>Mengakses alat berat dengan filter kategori</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menampilkan alat berat sesuai dengan filter kategori</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Pencarian Alat Berat</td>
+                        <td>Mencari alat berat dengan kata kunci</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menampilkan hasil pencarian yang relevan</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>3. Pengujian Fitur Booking (Pemesanan)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Fungsi/Fitur yang Diuji</th>
+                        <th>Skenario Pengujian</th>
+                        <th>Hasil Eksekusi</th>
+                        <th>Keterangan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Form Booking (Pengguna Terautentikasi)</td>
+                        <td>Mengakses halaman detail alat sebagai pengguna</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menampilkan form pemesanan untuk pengguna yang login</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Validasi Form Kosong</td>
+                        <td>Mengirim form booking tanpa data</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem memvalidasi dan menolak form kosong</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Validasi Tanggal Salah</td>
+                        <td>Mengirim form dengan tanggal tidak valid</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem memvalidasi tanggal pemesanan dengan benar</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Pembuatan Booking Berhasil</td>
+                        <td>Mengirim form booking dengan data lengkap</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem membuat pemesanan baru dan menampilkan konfirmasi</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Booking Alat Tidak Aktif</td>
+                        <td>Mencoba booking alat berat tidak aktif</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem tidak mengizinkan pemesanan alat tidak aktif</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Booking Alat Habis Stok</td>
+                        <td>Mencoba booking alat berat dengan stok 0</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menolak pemesanan untuk alat yang tidak tersedia</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>Halaman Konfirmasi Booking</td>
+                        <td>Mengakses halaman konfirmasi setelah booking</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menampilkan informasi konfirmasi pemesanan</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>Riwayat Booking Pengguna</td>
+                        <td>Pengguna melihat riwayat booking</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menampilkan daftar pemesanan pengguna</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>Detail Booking Pengguna</td>
+                        <td>Pengguna melihat detail booking</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menampilkan detail pemesanan pengguna</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>4. Pengujian Fitur Admin</h2>
+            <h3>4.1 Equipment Management</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Fungsi/Fitur yang Diuji</th>
+                        <th>Skenario Pengujian</th>
+                        <th>Hasil Eksekusi</th>
+                        <th>Keterangan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Akses Pengguna Biasa ke Admin</td>
+                        <td>Pengguna biasa mengakses halaman admin</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem melindungi halaman admin dari pengguna tidak berwenang</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Akses Admin ke Equipment Management</td>
+                        <td>Admin mengakses halaman manajemen alat</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menampilkan halaman manajemen alat untuk admin</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Daftar Alat Berat Admin</td>
+                        <td>Admin melihat daftar alat berat</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menampilkan daftar alat berat untuk admin</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Halaman Tambah Alat Berat</td>
+                        <td>Admin mengakses halaman tambah alat</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menampilkan formulir penambahan alat berat</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Tambah Alat Berat</td>
+                        <td>Admin menambahkan alat berat baru</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menyimpan data alat berat baru ke database</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>4.2 Booking Management</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Fungsi/Fitur yang Diuji</th>
+                        <th>Skenario Pengujian</th>
+                        <th>Hasil Eksekusi</th>
+                        <th>Keterangan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Akses Pengguna Biasa ke Admin Booking</td>
+                        <td>Pengguna biasa mengakses booking admin</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem melindungi halaman booking admin</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Akses Admin ke Booking Management</td>
+                        <td>Admin mengakses manajemen booking</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menampilkan halaman manajemen pemesanan</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Daftar Booking Admin</td>
+                        <td>Admin melihat daftar booking</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menampilkan semua data pemesanan</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Filter Booking berdasarkan Status</td>
+                        <td>Admin memfilter booking berdasarkan status</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menampilkan pemesanan sesuai filter status</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Update Status Booking</td>
+                        <td>Admin mengubah status booking</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem mengupdate status pemesanan</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>4.3 Settings Management</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Fungsi/Fitur yang Diuji</th>
+                        <th>Skenario Pengujian</th>
+                        <th>Hasil Eksekusi</th>
+                        <th>Keterangan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Akses Pengguna Biasa ke Settings</td>
+                        <td>Pengguna biasa mengakses settings admin</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem melindungi halaman pengaturan admin</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Akses Admin ke Settings Management</td>
+                        <td>Admin mengakses manajemen settings</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menampilkan halaman pengaturan sistem</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Update Pengaturan Perusahaan</td>
+                        <td>Admin mengupdate data perusahaan</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menyimpan perubahan data perusahaan</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Upload Logo Perusahaan</td>
+                        <td>Admin mengupload logo baru</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menyimpan gambar logo baru</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Update Pengaturan Statistik</td>
+                        <td>Admin mengupdate data statistik</td>
+                        <td class="success">Berhasil</td>
+                        <td>Sistem menyimpan perubahan data statistik</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>5. Kesimpulan</h2>
+            <p>Berdasarkan hasil pengujian Black Box yang telah dilakukan pada Sistem Manajemen Rental Alat Berat, dapat disimpulkan bahwa seluruh fitur dalam sistem telah berfungsi dengan baik dan sesuai dengan kebutuhan pengguna. Sistem berhasil menangani validasi input, manajemen data, dan hak akses pengguna secara tepat.</p>
+            <p>Keseluruhan hasil pengujian menunjukkan bahwa sistem siap untuk diimplementasikan pada lingkungan produksi, dengan catatan bahwa beberapa rekomendasi pengembangan dapat ditindaklanjuti pada iterasi berikutnya untuk meningkatkan fungsionalitas sistem.</p>
+        </div>
+
+        <div class="footer">
+            <p>Laporan Black Box Testing - Sistem Manajemen Rental Alat Berat</p>
+            <p>Kerja Praktek - 2025</p>
+        </div>
+    </div>
+</body>
+</html>

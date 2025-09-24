@@ -275,12 +275,7 @@
                             Kelola Booking
                         </a>
                     </div>
-                    <div class="col-lg-2 col-md-4 mb-3">
-                        <a href="{{ route('admin.bookings.monthly-report') }}" class="btn btn-info w-100">
-                            <i class="fas fa-chart-line me-2"></i>
-                            Laporan Bulanan
-                        </a>
-                    </div>
+                    <!-- Laporan Bulanan button removed -->
                     <div class="col-lg-2 col-md-4 mb-3">
                         <a href="{{ route('admin.settings.index') }}" class="btn btn-dark w-100">
                             <i class="fas fa-cog me-2"></i>

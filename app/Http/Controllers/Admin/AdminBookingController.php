@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Equipment;
 use App\Models\Booking;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
@@ -19,11 +20,49 @@ class AdminBookingController extends Controller
 
     public function index()
     {
+        // Stats expected by Blade as `$stats[...]`
+        $stats = [
+            'total_bookings' => Booking::count(),
+            'pending_bookings' => Booking::where('status', 'pending')->count(),
+            'ongoing_bookings' => Booking::where('status', 'confirmed')->count(),
+            'this_month_revenue' => Booking::where('status', 'completed')
+                ->whereMonth('created_at', now()->month)
+                ->whereYear('created_at', now()->year)
+                ->sum('total_price'),
+            'overdue_bookings' => Booking::where('status', 'confirmed')
+                ->where('end_date', '<', now())
+                ->count(),
+        ];
+
+        // Eloquent query with relations + optional filters
         $bookings = Booking::with(['equipment.category'])
+            ->when(request('status'), function ($q) {
+                $q->where('status', request('status'));
+            })
+            ->when(request('equipment_id'), function ($q) {
+                $q->where('equipment_id', request('equipment_id'));
+            })
+            ->when(request('search'), function ($q) {
+                $search = request('search');
+                $q->where(function ($query) use ($search) {
+                    $query->where('booking_code', 'like', "%{$search}%")
+                        ->orWhere('customer_name', 'like', "%{$search}%")
+                        ->orWhere('customer_email', 'like', "%{$search}%")
+                        ->orWhere('customer_phone', 'like', "%{$search}%");
+                });
+            })
+            ->when(request('start_date'), function ($q) {
+                $q->whereDate('start_date', '>=', request('start_date'));
+            })
+            ->when(request('end_date'), function ($q) {
+                $q->whereDate('end_date', '<=', request('end_date'));
+            })
             ->orderBy('created_at', 'desc')
             ->paginate(10);
+
+        $equipment = Equipment::active()->with('category')->get();
         
-        return view('admin.bookings.index', compact('bookings'));
+        return view('admin.bookings.index', compact('bookings', 'equipment', 'stats'));
     }
 
     public function create()
@@ -37,16 +76,15 @@ class AdminBookingController extends Controller
         $validated = $request->validate([
             'equipment_id' => 'required|exists:equipment,id',
             'customer_name' => 'required|string|max:255',
-            'customer_email' => 'required|email|max:255',
-            'customer_phone' => 'required|string|max:20',
-            'company_name' => 'nullable|string|max:255',
-            'project_location' => 'required|string|max:500',
+            'contact_name' => 'required|string|max:255',
+            'contact_phone' => 'required|string|max:20',
+            'contact_email' => 'nullable|email|max:255',
+            'delivery_address' => 'nullable|string|max:500',
             'start_date' => 'required|date',
-            'end_date' => 'required|date|after:start_date',
-            'project_description' => 'required|string|max:1000',
-            'special_requirements' => 'nullable|string|max:500',
-            'rental_price' => 'required|numeric|min:0',
-            'status' => 'required|in:pending,confirmed,ongoing,completed,cancelled',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'notes' => 'nullable|string|max:1000',
+            'admin_notes' => 'nullable|string|max:500',
+            'total_cost' => 'required|numeric|min:0',
         ]);
 
         // Generate unique booking code
@@ -57,8 +95,15 @@ class AdminBookingController extends Controller
         $endDate = Carbon::parse($validated['end_date']);
         $validated['duration_days'] = $startDate->diffInDays($endDate) + 1;
 
-        // Calculate total price
-        $validated['total_price'] = $validated['rental_price'] * $validated['duration_days'];
+        // Map field names from form to database
+        $validated['customer_email'] = $validated['contact_email'] ?? null;
+        $validated['customer_phone'] = $validated['contact_phone'];
+        $validated['project_location'] = $validated['delivery_address'] ?? null;
+        $validated['project_description'] = $validated['notes'] ?? null;
+        $validated['special_requirements'] = $validated['admin_notes'] ?? null;
+        $validated['rental_price'] = $validated['total_cost'] / $validated['duration_days'];
+        $validated['total_price'] = $validated['total_cost'];
+        $validated['status'] = 'pending';
 
         Booking::create($validated);
 
@@ -68,7 +113,7 @@ class AdminBookingController extends Controller
 
     public function show(Booking $booking)
     {
-        $booking->load(['equipment.category']);
+        $booking->load(['equipment.category', 'user']);
         return view('admin.bookings.show', compact('booking'));
     }
 
@@ -111,96 +156,67 @@ class AdminBookingController extends Controller
 
     public function destroy(Booking $booking)
     {
-        $booking->delete();
+        DB::transaction(function () use ($booking) {
+            // If a confirmed booking is removed, return stock
+            if ($booking->status === 'confirmed') {
+                $equipment = Equipment::find($booking->equipment_id);
+                if ($equipment) {
+                    $equipment->increaseStock($booking->quantity ?? 1);
+                }
+            }
+            $booking->delete();
+        });
         
         return redirect()->route('admin.bookings.index')
             ->with('success', 'Booking berhasil dihapus!');
     }
-
-    public function report(Request $request)
+    
+    /**
+     * Update the booking status.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Booking  $booking
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStatus(Request $request, Booking $booking)
     {
-        $startDate = $request->input('start_date', now()->startOfMonth()->format('Y-m-d'));
-        $endDate = $request->input('end_date', now()->endOfMonth()->format('Y-m-d'));
-        $status = $request->input('status');
+        $request->validate([
+            'status' => 'required|in:pending,confirmed,ongoing,completed,cancelled,active',
+        ]);
 
-        $query = Booking::with(['equipment.category'])
-            ->whereBetween('start_date', [$startDate, $endDate]);
+        DB::transaction(function () use ($request, $booking) {
+            $oldStatus = $booking->status;
+            $newStatus = $request->status;
+            // Map alias 'active' -> 'ongoing'
+            if ($newStatus === 'active') {
+                $newStatus = 'ongoing';
+            }
+            $qty = $booking->quantity ?? 1;
 
-        if ($status) {
-            $query->where('status', $status);
-        }
+            $equipment = Equipment::find($booking->equipment_id);
 
-        $bookings = $query->orderBy('start_date', 'desc')->get();
+            // On confirm, reduce stock (only once)
+            if ($newStatus === 'confirmed' && $oldStatus !== 'confirmed' && $equipment) {
+                if (!$equipment->hasStock($qty)) {
+                    abort(400, 'Stok alat tidak mencukupi.');
+                }
+                $equipment->decreaseStock($qty);
+            }
 
-        $summary = [
-            'total_bookings' => $bookings->count(),
-            'total_revenue' => $bookings->sum('total_price'),
-            'avg_duration' => $bookings->avg('duration_days') ? round($bookings->avg('duration_days'), 1) : 0,
-            'total_equipment_used' => $bookings->pluck('equipment_id')->unique()->count(),
-            'by_status' => $bookings->groupBy('status')->map->count(),
-        ];
+            // On completed or cancelled from confirmed, return stock
+            if ($oldStatus === 'confirmed' && in_array($newStatus, ['completed', 'cancelled'], true) && $equipment) {
+                $equipment->increaseStock($qty);
+            }
 
-        return view('admin.bookings.report', compact('bookings', 'summary', 'startDate', 'endDate'));
-    }
-
-    public function monthlyReport(Request $request)
-    {
-        $year = $request->input('year', now()->year);
-        $month = $request->input('month', now()->month);
+            $booking->status = $newStatus;
+            $booking->save();
+        });
         
-        // Get start and end dates for the selected month
-        $startDate = Carbon::create($year, $month, 1)->startOfMonth();
-        $endDate = Carbon::create($year, $month, 1)->endOfMonth();
-
-        // Get bookings for the selected month
-        $bookings = Booking::with(['equipment.category'])
-            ->whereBetween('start_date', [$startDate, $endDate])
-            ->orderBy('start_date', 'desc')
-            ->get();
-
-        // Calculate monthly statistics
-        $monthlyStats = [
-            'total_bookings' => $bookings->count(),
-            'completed_bookings' => $bookings->where('status', 'completed')->count(),
-            'cancelled_bookings' => $bookings->where('status', 'cancelled')->count(),
-            'ongoing_bookings' => $bookings->where('status', 'ongoing')->count(),
-            'total_revenue' => $bookings->where('status', 'completed')->sum('total_price'),
-            'pending_revenue' => $bookings->whereIn('status', ['confirmed', 'ongoing'])->sum('total_price'),
-            'avg_booking_value' => $bookings->avg('total_price') ? round($bookings->avg('total_price'), 0) : 0,
-            'avg_duration' => $bookings->avg('duration_days') ? round($bookings->avg('duration_days'), 1) : 0,
-        ];
-
-        // Get equipment usage statistics
-        $equipmentStats = $bookings->groupBy('equipment_id')
-            ->map(function ($equipmentBookings) {
-                $equipment = $equipmentBookings->first()->equipment;
-                return [
-                    'equipment' => $equipment,
-                    'bookings_count' => $equipmentBookings->count(),
-                    'total_revenue' => $equipmentBookings->where('status', 'completed')->sum('total_price'),
-                    'total_days' => $equipmentBookings->sum('duration_days'),
-                ];
-            })
-            ->sortByDesc('bookings_count');
-
-        // Get year and month options for the filter
-        $yearOptions = range(now()->year - 2, now()->year + 1);
-        $monthOptions = [
-            1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
-            5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus',
-            9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
-        ];
-
-        return view('admin.bookings.monthly-report', compact(
-            'bookings', 
-            'monthlyStats', 
-            'equipmentStats',
-            'year', 
-            'month', 
-            'yearOptions', 
-            'monthOptions',
-            'startDate',
-            'endDate'
-        ));
+        
+        return redirect()->back()->with('success', 'Status booking berhasil diperbarui.');
     }
+
+    // Report method has been removed
+
+    // Monthly Report method has been removed
 }

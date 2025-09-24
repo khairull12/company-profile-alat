@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Database\Seeders\EquipmentDataUpdate2025;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,7 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AdminUserSeeder::class,
             CategorySeeder::class,
-            EquipmentSeeder::class,
+            EquipmentDataUpdate2025::class, // Menggunakan data katalog terbaru
             SettingSeeder::class,
             StatisticsSettingSeeder::class,
         ]);

@@ -188,17 +188,6 @@
                     Daftar Booking
                 </a>
                 
-                <a href="{{ route('admin.bookings.report') }}" class="nav-link {{ request()->routeIs('admin.bookings.report') ? 'active' : '' }}">
-                    <i class="fas fa-chart-bar me-3"></i>
-                    Laporan Umum
-                </a>
-                
-                <a href="{{ route('admin.bookings.monthly-report') }}" class="nav-link {{ request()->routeIs('admin.bookings.monthly-report') ? 'active' : '' }}">
-                    <i class="fas fa-chart-line me-3"></i>
-                    Laporan Bulanan
-                    <span class="badge bg-success ms-2 small">Baru</span>
-                </a>
-                
                 <a href="{{ route('admin.settings.index') }}" class="nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
                     <i class="fas fa-cog me-3"></i>
                     Pengaturan Website

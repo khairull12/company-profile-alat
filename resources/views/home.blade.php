@@ -195,10 +195,9 @@
                 <div class="about-content">
                     <h3 class="about-title">Sejarah & Perjalanan</h3>
                     <p class="about-text">
-                        Didirikan pada tahun 2008, PT. Dhiva Sarana Transport Konstruksi telah 
+                        Didirikan pada tahun 2022, PT. Dhiva Sarana Transport Konstruksi telah 
                         berkembang menjadi salah satu perusahaan penyewaan alat berat 
-                        terpercaya di Indonesia. Dengan pengalaman lebih dari 15 tahun, kami telah 
-                        melayani berbagai proyek konstruksi skala nasional.
+                        terpercaya di Indonesia.
                     </p>
                     
                     <p class="about-text">
@@ -209,14 +208,14 @@
 
                     <div class="timeline-info">
                         <div class="timeline-item">
-                            <div class="timeline-year">2008</div>
+                            <div class="timeline-year">2022</div>
                             <div class="timeline-content">
                                 <h5>Tahun Berdiri</h5>
                                 <p>Memulai perjalanan dengan visi besar</p>
                             </div>
                         </div>
                         <div class="timeline-item">
-                            <div class="timeline-year">50+</div>
+                            <div class="timeline-year">20+</div>
                             <div class="timeline-content">
                                 <h5>Karyawan Ahli</h5>
                                 <p>Tim professional berpengalaman</p>
@@ -233,8 +232,8 @@
                         </div>
                         <div class="building-content">
                             <div class="building-info">
-                                <h5>Kantor Pusat Jakarta</h5>
-                                <p>Mengelola seluruh Indonesia dengan standar internasional</p>
+                                <h5>Kantor Berpusat diKalimantan Barat</h5>
+                                <p>Mengelola seluruh Kalimantan Barat dengan standar nasional</p>
                             </div>
                             <div class="building-image">
                                 <img src="https://via.placeholder.com/400x250/1e3a8a/ffffff?text=Kantor+Pusat" alt="Kantor Pusat" class="img-fluid rounded">
