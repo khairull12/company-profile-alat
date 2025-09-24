@@ -1033,11 +1033,7 @@
                                 <i class="fas fa-sign-in-alt me-1"></i>Login
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">
-                                <i class="fas fa-user-plus me-1"></i>Daftar
-                            </a>
-                        </li>
+                        {{-- Registration disabled: hide sign-up link --}}
                     @endauth
                 </ul>
             </div>

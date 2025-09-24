@@ -57,7 +57,7 @@
             @guest
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <a href="{{ route('login') }}" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 px-3 py-2 rounded-md text-sm font-medium">Login</a>
-                <a href="{{ route('register') }}" class="ml-4 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 px-3 py-2 rounded-md text-sm font-medium">Register</a>
+                {{-- Registration disabled: remove link --}}
             </div>
             @endguest
 
@@ -114,9 +114,7 @@
                 <x-responsive-nav-link :href="route('login')">
                     {{ __('Login') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('register')">
-                    {{ __('Register') }}
-                </x-responsive-nav-link>
+                {{-- Registration disabled: remove link --}}
             </div>
         </div>
         @endguest
